@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">落叶天气</string>
+    <string name="select_city">选择城市</string>
+    <string name="hot_city">热门城市</string>
+    <string name="located_city">定位城市</string>
+    <string name="hint_search_box">请输入城市名或拼音</string>
+    <string name="nothing_found">没有搜索结果~</string>
+    <string name="locating">正在定位…</string>
+    <string name="located_failed">定位失败</string>
+    <string name="network_not_available">无网络</string>
+    <string name="wu_shu_ju">无数据</string>
+    <string name="bai_tian">白天</string>
+    <string name="ye_jian">夜间</string>
+    <string name="rain_pop">降水概率</string>
+    <string name="wind_sc_dir">风力风向</string>
+    <string name="sheng_huo">生活指数</string>
+    <string name="dialog_title">别紧张，小问题...</string>
+    <string name="sure">确定</string>
+    <string name="splash">启动界面</string>
+</resources>
