@@ -1,25 +1,32 @@
 package com.ranli.fallenleavesweather.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +49,7 @@ import java.util.List;
 /**
  * author zaaach on 2016/1/26.
  */
-public class CityPickerActivity extends AppCompatActivity implements View.OnClickListener {
+public class CityPickerActivity extends BaseActivity implements View.OnClickListener {
     public static final String KEY_PICKED_CITY = "picked_city";
     private static final String[] LOCATION_PERMISSIONS = new String[] {
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -67,6 +74,7 @@ public class CityPickerActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_city_list);
 
         initData();

@@ -1,6 +1,7 @@
 package com.ranli.fallenleavesweather.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,18 +11,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +84,16 @@ public class WeatherActivity extends BaseActivity {
     public static final long HALF_HOUR = 30 * 60 * 1000;
 
     private static final String KEY = "b23a0a8f079147e1a1d809faa44c8b87";
+
+    private static final int SPLASH_DISPLAY_LENGH = 350; // 延迟350毫秒
+
+    private DrawerLayout mDrawerLayout;
+
+    private LinearLayout mLocationLinearLayout;
+
+    private LinearLayout mSettingsLinearLayout;
+
+    private LinearLayout mAboutLinearLayout;
 
     private XRefreshView xRefreshView;
 
@@ -162,8 +178,10 @@ public class WeatherActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.weather_layout);
 
+        translucent();
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
 //                != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(WeatherActivity.this, NECESSARY_PERMISSIONS, REQUEST_PERMISSION_OTHERS);
@@ -267,11 +285,54 @@ public class WeatherActivity extends BaseActivity {
 
     }
 
+    @TargetApi(19)
+    private void translucent () {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        LinearLayout mWeatherActivityLayout = $(R.id.weather_activity_layout);
+        mWeatherActivityLayout.setPadding(0, getAddWidth(), 0, 0);
+    }
+
+
     private void makeText(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
     private void initUIComponents() {
+
+        mDrawerLayout = $(R.id.drawer_layout);
+        mLocationLinearLayout = $(R.id.navigation_location);
+        mLocationLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Intent intent = new Intent(WeatherActivity.this, CityPickerActivity.class);
+                        startActivityForResult(intent, START_CITY_PICKER);
+                    }
+
+                }, SPLASH_DISPLAY_LENGH);
+
+            }
+        });
+        mSettingsLinearLayout = $(R.id.navigation_settings);
+        mSettingsLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Intent intent = new Intent(WeatherActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                    }
+
+                }, SPLASH_DISPLAY_LENGH);
+
+            }
+        });
+
+
+
         xRefreshView = $(R.id.custom_view);
         xRefreshView.setCustomHeaderView(new SmileyHeaderView(this));
         xRefreshView.setPullRefreshEnable(true);
@@ -315,8 +376,7 @@ public class WeatherActivity extends BaseActivity {
         mChooseCounty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WeatherActivity.this, CityPickerActivity.class);
-                startActivityForResult(intent, START_CITY_PICKER);
+                mDrawerLayout.openDrawer(Gravity.LEFT);
             }
         });
 
@@ -776,6 +836,19 @@ public class WeatherActivity extends BaseActivity {
         int screenWidth = (int) (width/density);//屏幕宽度(dp)
         int screenHeight = (int)(height/density);//屏幕高度(dp)
         return screenWidth;
+    }
+
+    private int getAddWidth(){
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        float density = dm.density;//屏幕密度（0.75 / 1.0 / 1.5）
+        //屏幕宽度算法:屏幕宽度（像素）/屏幕密度
+        if (Build.VERSION.SDK_INT >= 23) {
+            return (int) (24 * density);//屏幕宽度(dp)
+        } else {
+            return (int) (25 * density);//屏幕宽度(dp)
+        }
     }
 
     private void saveCityID(String cityID) {

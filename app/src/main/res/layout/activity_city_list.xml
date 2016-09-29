@@ -57,3 +57,6 @@
         <include layout="@layout/view_no_search_result" />
     </RelativeLayout>
 </LinearLayout>
+
+
+
