@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="天气信息更新间隔为\n30~60分钟"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        />
+
+    <LinearLayout style="@style/horizontal_division_line_style" />
+
+    <Button
+        android:id="@+id/bt_immediately"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="立即刷新"
+        android:textColor="@android:color/tertiary_text_dark"
+        style="?android:attr/borderlessButtonStyle"
+    />
+
+    <LinearLayout style="@style/horizontal_division_line_style" />
+
+    <Button
+        android:id="@+id/bt_half_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="三十分钟"
+        android:textColor="@android:color/tertiary_text_dark"
+        style="?android:attr/borderlessButtonStyle"
+
+        />
+
+    <LinearLayout style="@style/horizontal_division_line_style" />
+
+    <Button
+        android:id="@+id/bt_one_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="一小时"
+        android:textColor="@android:color/tertiary_text_dark"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
+    <LinearLayout style="@style/horizontal_division_line_style" />
+
+    <Button
+        android:id="@+id/bt_five_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="五小时"
+        android:textColor="@android:color/tertiary_text_dark"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
+    <LinearLayout style="@style/horizontal_division_line_style" />
+
+    <Button
+        android:id="@+id/bt_twelve_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="十二小时"
+        android:textColor="@android:color/tertiary_text_dark"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
+    <LinearLayout style="@style/horizontal_division_line_style" />
 
 </LinearLayout>

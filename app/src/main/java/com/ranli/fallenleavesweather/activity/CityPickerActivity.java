@@ -1,13 +1,11 @@
 package com.ranli.fallenleavesweather.activity;
 
 import android.Manifest;
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -15,18 +13,14 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +56,7 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
     private ImageView clearBtn;
     private ImageView backBtn;
     private ViewGroup emptyView;
+    private TextView mTitleText;
 
     private CityListAdapter mCityAdapter;
     private ResultListAdapter mResultAdapter;
@@ -79,13 +74,18 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
 
         initData();
         initView();
-        if (ContextCompat.checkSelfPermission(this, LOCATION_PERMISSIONS[0])
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(CityPickerActivity.this, LOCATION_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
+        SharedPreferences settings = getSharedPreferences("settings", MODE_PRIVATE);
+        boolean isLocation = settings.getBoolean("is_location", true);
+        if (isLocation) {
+            if (ContextCompat.checkSelfPermission(this, LOCATION_PERMISSIONS[0])
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(CityPickerActivity.this, LOCATION_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
+            } else {
+                initLocation();
+            }
         } else {
-            initLocation();
+            mCityAdapter.updateLocateState(LocateState.FAILED, null);
         }
-
     }
 
     @Override
@@ -158,6 +158,9 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
+        mTitleText = $(R.id.common_title_bar_Text);
+        mTitleText.setText("选择城市");
+
         mListView = (ListView) findViewById(R.id.listview_all_city);
         mListView.setAdapter(mCityAdapter);
 

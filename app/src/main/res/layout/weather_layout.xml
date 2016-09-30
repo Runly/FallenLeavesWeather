@@ -12,6 +12,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:clipToPadding="true"
         android:background="@drawable/gradient_bg"
         >
 
@@ -57,7 +59,6 @@
 
         </RelativeLayout>
 
-
         <com.andview.refreshview.XRefreshView
             xmlns:xrefreshview="http://schemas.android.com/apk/res-auto"
             android:id="@+id/custom_view"
@@ -91,7 +92,7 @@
                             android:layout_gravity="end"
                             android:paddingRight="8dp"
                             android:textSize="12sp"
-                            android:textColor="#dbdbdb"
+                            android:textColor="#f9f9f9"
                             />
 
                         <LinearLayout
@@ -141,7 +142,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:textColor="#dbdbdb"
+                                android:textColor="#f9f9f9"
                                 android:textSize="14sp"
                                 android:layout_weight="1"
                                 />
@@ -151,7 +152,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:textColor="#dbdbdb"
+                                android:textColor="#f9f9f9"
                                 android:textSize="14sp"
                                 android:layout_weight="1"
                                 />
@@ -165,7 +166,7 @@
                             android:layout_gravity="center_horizontal"
                             android:paddingTop="8dp"
                             android:paddingBottom="30dp"
-                            android:textColor="#dbdbdb"
+                            android:textColor="#f9f9f9"
                             android:textSize="12sp"
                             />
 
@@ -533,7 +534,7 @@
                         android:paddingTop="8dp"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/rain_pop"
-                        android:textColor="#dbdbdb"
+                        android:textColor="#f9f9f9"
                         />
 
                     <LinearLayout
@@ -606,7 +607,7 @@
                         android:paddingTop="8dp"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/wind_sc_dir"
-                        android:textColor="#dbdbdb"
+                        android:textColor="#f9f9f9"
                         />
 
                     <LinearLayout
