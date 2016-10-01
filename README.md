@@ -30,23 +30,17 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 ###应用截图
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013501.png" width = "100" height = "177.7" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013501.png" width = "150" height = "266.6" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013511.png" width = "150" height = "266.6" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013535.png" width = "150" height = "266.6" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013544.png" width = "150" height = "266.6" align=center />
 
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013511.png" width = "100" height = "177.7" align=center />
 
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013535.png" width = "100" height = "177.7" align=center />
 
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013544.png" width = "100" height = "177.7" align=center />
-
-###
-
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013554.png" width = "100" height = "177.7" align=center />
-
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013606.png" width = "100" height = "177.7" align=center />
-
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013621.png" width = "100" height = "177.7" align=center />
-
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-165636.png" width = "100" height = "177.7" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013554.png" width = "150" height = "266.6" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013606.png" width = "150" height = "266.6" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013621.png" width = "150" height = "266.6" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-165636.png" width = "150" height = "266.6" align=center />
 
 ###版本信息
 v 1.2.0 (Build 4)
