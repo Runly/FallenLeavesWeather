@@ -48,7 +48,7 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
     private static final String[] LOCATION_PERMISSIONS = new String[] {
             Manifest.permission.ACCESS_COARSE_LOCATION,
     };
-    public static final int REQUEST_PERMISSION_LOCATION = 314;
+    private static final int REQUEST_PERMISSION_LOCATION = 314;
     private ListView mListView;
     private ListView mResultListView;
     private SideLetterBar mLetterBar;

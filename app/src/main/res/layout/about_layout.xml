@@ -36,7 +36,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:text="落叶天气\nv 1.0.0"
+            android:text="落叶天气\nv 1.2.0"
             android:textSize="16sp"
             />
 
@@ -67,7 +67,7 @@
                 android:id="@+id/version_update_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已是最新版本"
+                android:text="获取更新"
                 android:textSize="14sp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />

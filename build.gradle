@@ -27,3 +27,13 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+allprojects {
+    repositories {
+        jcenter()
+
+        maven {
+            url "http://maven.bughd.com/public"
+        }
+    }
+}

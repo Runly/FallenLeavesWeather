@@ -75,12 +75,12 @@ import java.util.TimeZone;
 public class WeatherActivity extends BaseActivity {
 
     private static final String[] LOCATION_PERMISSIONS = new String[] {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     };
-    public static final int REQUEST_PERMISSION_LOCATION = 3;
-    public static final int START_CITY_PICKER = 1;
-    public static final int REQUEST_FINISHED = 2;
-    public static final int HALF_HOUR = 30 * 60 * 1000;
+    private static final int REQUEST_PERMISSION_LOCATION = 3;
+    private static final int START_CITY_PICKER = 1;
+    private static final int REQUEST_FINISHED = 2;
+    private static final int HALF_HOUR = 30 * 60 * 1000;
     private static final String KEY = "b23a0a8f079147e1a1d809faa44c8b87";
     private static final int SPLASH_DISPLAY_LENGH = 350; // 延迟350毫秒
     private DrawerLayout mDrawerLayout;

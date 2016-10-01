@@ -5,11 +5,11 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.ranli.simpleweather"
+        applicationId "com.ranli.fallenleavesweather"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 4
+        versionName "1.2.0"
     }
     buildTypes {
         release {
@@ -40,4 +40,8 @@ dependencies {
 
 dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+}
+
+dependencies {
+    compile 'im.fir:fir-sdk:latest.integration@aar'
 }
