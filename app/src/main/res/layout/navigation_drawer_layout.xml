@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="300dp"
+    android:layout_width="290dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:background="#f9f9f9"
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/tile_image"
         android:adjustViewBounds="true"
-
+        tools:ignore="ContentDescription"
         />
 
     <LinearLayout
@@ -32,17 +33,20 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:src="@drawable/location"
+            tools:ignore="ContentDescription"
             />
 
         <TextView
             android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:gravity="center_vertical"
-            android:text="选择城市"
+            android:text="@string/navigation_choose_city"
             android:textSize="16sp"
             />
 
@@ -53,8 +57,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:gravity="center_vertical"
-        android:text="更多"
+        android:text="@string/navigation_more"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray"
         />
@@ -75,17 +80,19 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:src="@drawable/settings"
             />
 
         <TextView
             android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:gravity="center_vertical"
-            android:text="设置"
+            android:text="@string/navigation_setting"
             android:textSize="16sp"
             />
 
@@ -106,17 +113,19 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:src="@drawable/about"
             />
 
         <TextView
             android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:gravity="center_vertical"
-            android:text="关于"
+            android:text="@string/navigation_about"
             android:textSize="16sp"
             />
 

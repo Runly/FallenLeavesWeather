@@ -12,7 +12,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="天气信息更新间隔为\n30~60分钟"
+        android:text="@string/setting_dialog_txt1"
         android:textSize="12sp"
         android:textColor="@android:color/darker_gray"
         />
@@ -23,7 +23,7 @@
         android:id="@+id/bt_immediately"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="立即刷新"
+        android:text="@string/setting_dialog_txt2"
         android:textColor="@android:color/tertiary_text_dark"
         style="?android:attr/borderlessButtonStyle"
     />
@@ -34,7 +34,7 @@
         android:id="@+id/bt_half_hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="三十分钟"
+        android:text="@string/setting_dialog_txt3"
         android:textColor="@android:color/tertiary_text_dark"
         style="?android:attr/borderlessButtonStyle"
 
@@ -46,7 +46,7 @@
         android:id="@+id/bt_one_hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="一小时"
+        android:text="@string/setting_dialog_txt4"
         android:textColor="@android:color/tertiary_text_dark"
         style="?android:attr/borderlessButtonStyle"
         />
@@ -57,7 +57,7 @@
         android:id="@+id/bt_five_hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="五小时"
+        android:text="@string/setting_dialog_txt5"
         android:textColor="@android:color/tertiary_text_dark"
         style="?android:attr/borderlessButtonStyle"
         />
@@ -68,7 +68,7 @@
         android:id="@+id/bt_twelve_hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="十二小时"
+        android:text="@string/setting_dialog_txt6"
         android:textColor="@android:color/tertiary_text_dark"
         style="?android:attr/borderlessButtonStyle"
         />

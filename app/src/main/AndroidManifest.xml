@@ -78,7 +78,7 @@
         <!--高德地图定位结束-->
 
         <meta-data
-            android:value="330300b5a20fb3de84f71f9c096a8f30"
+            android:value="d5d6b8366c0c3c433e2aaf5b60b553aa"
             android:name="BUG_HD_SDK_GENERAL_KEY" />
 
     </application>

@@ -30,7 +30,6 @@ public class CityListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<City> mCities;
     private HashMap<String, Integer> letterIndexes;
-    private String[] sections;
     private OnCityClickListener onCityClickListener;
     private int locateState = LocateState.LOCATING;
     private String locatedCity;
@@ -46,7 +45,7 @@ public class CityListAdapter extends BaseAdapter {
         mCities.add(1, new City("热门", "1"));
         int size = mCities.size();
         letterIndexes = new HashMap<>();
-        sections = new String[size];
+        String[] sections = new String[size];
         for (int index = 0; index < size; index++){
             //当前城市拼音首字母
             String currentLetter = PinyinUtils.getFirstLetter(mCities.get(index).getPinyin());

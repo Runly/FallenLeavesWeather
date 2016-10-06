@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f9f9f9"
-    >
+    android:background="#f9f9f9">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,17 +26,18 @@
                 android:layout_height="100dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/app_icon"
+                tools:ignore="ContentDescription"
                 />
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/version_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:text="落叶天气\nv 1.2.0"
             android:textSize="16sp"
             />
 
@@ -59,15 +60,50 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="版本更新"
+                android:text="@string/about_version"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                />
+
+            <ImageView
+                android:id="@+id/version_update_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/update_arrows"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout style="@style/horizontal_division_line_style" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_weibo"
                 android:textSize="14sp"
                 />
 
             <TextView
-                android:id="@+id/version_update_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="获取更新"
+                android:text="@string/about_weibo_id"
                 android:textSize="14sp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
@@ -91,45 +127,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="微博"
+                android:text="@string/about_feedback"
                 android:textSize="14sp"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="昵称: Ritale_"
-                android:textSize="14sp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-        </RelativeLayout>
-
-        <LinearLayout style="@style/horizontal_division_line_style" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="意见反馈"
-                android:textSize="14sp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ranli314@126.com"
+                android:text="@string/about_email"
                 android:textSize="14sp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
@@ -147,7 +152,7 @@
             android:layout_marginRight="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="感谢以下开源项目的支持"
+            android:text="@string/about_think1"
             android:textSize="14sp"
             />
 
@@ -157,7 +162,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="MPAndroidChart - github.com/PhilJay/MPAndroidChart"
+            android:text="@string/about_github1"
             android:textSize="12sp"
             />
 
@@ -167,7 +172,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="XRefreshView - github.com/huxq17/XRefreshView"
+            android:text="@string/about_github2"
             android:textSize="12sp"
             />
 
@@ -177,7 +182,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="CityPicker - github.com/zaaach/CityPicker"
+            android:text="@string/about_github3"
             android:textSize="12sp"
             />
 
@@ -189,7 +194,7 @@
             android:layout_marginRight="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="感谢以下资源的支持"
+            android:text="@string/about_think2"
             android:textSize="14sp"
             />
 
@@ -199,7 +204,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="iconfont - http://iconfont.cn"
+            android:text="@string/about_iconfont"
             android:textSize="12sp"
             />
 
@@ -209,7 +214,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="高德地图定位 - http://lbs.amap.com/api"
+            android:text="@string/about_amap"
             android:textSize="12sp"
             />
 
@@ -219,7 +224,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="和风天气接口服务 - http://heweather.com"
+            android:text="@string/about_weather"
             android:textSize="12sp"
             />
 

@@ -51,20 +51,15 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
     private static final int REQUEST_PERMISSION_LOCATION = 314;
     private ListView mListView;
     private ListView mResultListView;
-    private SideLetterBar mLetterBar;
     private EditText searchBox;
     private ImageView clearBtn;
-    private ImageView backBtn;
     private ViewGroup emptyView;
-    private TextView mTitleText;
 
     private CityListAdapter mCityAdapter;
     private ResultListAdapter mResultAdapter;
-    private List<City> mAllCities;
     private DBManager dbManager;
 
     private AMapLocationClient mLocationClient;
-    private AMapLocationClientOption mLocationOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +99,7 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
     private void initLocation() {
         mLocationClient = new AMapLocationClient(this);
         //初始化定位参数
-        mLocationOption = new AMapLocationClientOption();
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         //设置定位监听
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置定位间隔,单位毫秒,默认为2000ms
@@ -137,8 +132,7 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
 
     private void initData() {
         dbManager = new DBManager(this);
-        dbManager.copyDBFile();
-        mAllCities = dbManager.getAllCities();
+        List<City> mAllCities = dbManager.getAllCities();
         mCityAdapter = new CityListAdapter(this, mAllCities);
         mCityAdapter.setOnCityClickListener(new CityListAdapter.OnCityClickListener() {
             @Override
@@ -158,14 +152,14 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
-        mTitleText = $(R.id.common_title_bar_Text);
+        TextView mTitleText = $(R.id.common_title_bar_Text);
         mTitleText.setText("选择城市");
 
         mListView = (ListView) findViewById(R.id.listview_all_city);
         mListView.setAdapter(mCityAdapter);
 
         TextView overlay = (TextView) findViewById(R.id.tv_letter_overlay);
-        mLetterBar = (SideLetterBar) findViewById(R.id.side_letter_bar);
+        SideLetterBar mLetterBar = (SideLetterBar) findViewById(R.id.side_letter_bar);
         mLetterBar.setOverlay(overlay);
         mLetterBar.setOnLetterChangedListener(new SideLetterBar.OnLetterChangedListener() {
             @Override
@@ -215,7 +209,7 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
         });
 
         clearBtn = (ImageView) findViewById(R.id.iv_search_clear);
-        backBtn = (ImageView) findViewById(R.id.back);
+        ImageView backBtn = (ImageView) findViewById(R.id.back);
 
         clearBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);

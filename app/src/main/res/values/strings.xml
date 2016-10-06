@@ -17,4 +17,37 @@
     <string name="dialog_title">别紧张，小问题...</string>
     <string name="sure">确定</string>
     <string name="splash">启动界面</string>
+    <string name="about_version">版本更新</string>
+    <string name="about_weibo">微博</string>
+    <string name="about_weibo_id">昵称: Ritale_</string>
+    <string name="about_feedback">意见反馈</string>
+    <string name="about_email">ranli314@126.com</string>
+    <string name="about_think1">感谢以下开源项目的支持</string>
+    <string name="about_github1">MPAndroidChart - github.com/PhilJay/MPAndroidChart</string>
+    <string name="about_github2">XRefreshView - github.com/huxq17/XRefreshView</string>
+    <string name="about_github3">CityPicker - github.com/zaaach/CityPicker</string>
+    <string name="about_think2">感谢以下资源的支持</string>
+    <string name="about_iconfont">iconfont - http://iconfont.cn</string>
+    <string name="about_amap">高德地图定位 - http://lbs.amap.com/api</string>
+    <string name="about_weather">和风天气接口服务 - http://heweather.com</string>
+    <string name="down_notification_text">下载进度： </string>
+    <string name="navigation_choose_city">选择城市</string>
+    <string name="navigation_more">更多</string>
+    <string name="navigation_setting">设置</string>
+    <string name="navigation_about">关于</string>
+    <string name="settings_refresh">刷新</string>
+    <string name="settings_auto_refresh">自动刷新</string>
+    <string name="settings_open_refresh">刷新</string>
+    <string name="settings_refresh_interval">刷新间隔</string>
+    <string name="settings_interval_text">大于此间隔，启动时刷新天气</string>
+    <string name="settings_location">定位</string>
+    <string name="settings_auto_location">自动定位</string>
+    <string name="settings_is_location">是否自动定位</string>
+    <string name="setting_dialog_txt1">天气信息更新间隔为\n30~60分钟</string>
+    <string name="setting_dialog_txt2">立即刷新</string>
+    <string name="setting_dialog_txt3">三十分钟</string>
+    <string name="setting_dialog_txt4">一小时</string>
+    <string name="setting_dialog_txt5">五小时</string>
+    <string name="setting_dialog_txt6">十二小时</string>
+
 </resources>

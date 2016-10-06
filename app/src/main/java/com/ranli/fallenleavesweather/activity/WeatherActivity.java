@@ -2,7 +2,6 @@ package com.ranli.fallenleavesweather.activity;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.Preference;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,9 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -82,29 +78,25 @@ public class WeatherActivity extends BaseActivity {
     private static final int REQUEST_FINISHED = 2;
     private static final int HALF_HOUR = 30 * 60 * 1000;
     private static final String KEY = "b23a0a8f079147e1a1d809faa44c8b87";
-    private static final int SPLASH_DISPLAY_LENGH = 350; // 延迟350毫秒
+    private static final int SPLASH_DISPLAY_LENGTH = 350; // 延迟350毫秒
+    private static final int LIMITED_USAGE = 404;
     private DrawerLayout mDrawerLayout;
-    private LinearLayout mLocationLinearLayout;
-    private LinearLayout mSettingsLinearLayout;
-    private LinearLayout mAboutLinearLayout;
     private XRefreshView xRefreshView;
-    private ImageView mChooseCounty;
     private TextView mCityNameText;
-    private ImageView mRefreshWeather;
     private TextView mDateOfWeather;
     private ImageView mNowImage;
     private TextView mNowWeatherTxt;
     private TextView mNowTemp;
     private TextView mNowTempFl;
     private TextView mNowHum;
-    private TextView mNowAqiAndpm25;
+    private TextView mNowAqiAndPm25;
     private LineChart mLineChart;
     private LinearLayout mDaysWeek;
     private LinearLayout mDaysWeatherIcon;
     private LinearLayout mDaysWeatherTxt;
     private LinearLayout mNightsWeatherIcon;
     private LinearLayout mNightsWeatherTxt;
-    private LinearLayout mDaysdate;
+    private LinearLayout mDaysDate;
     private LinearLayout mDaysWindDir;
     private LinearLayout mDaysWindSc;
     private LinearLayout mDaysRainPop;
@@ -127,7 +119,6 @@ public class WeatherActivity extends BaseActivity {
     private MyHandler handler = new MyHandler(this);
     private WeatherInformationDbManager dbManager;
     private AMapLocationClient mLocationClient;
-    private AMapLocationClientOption mLocationOption;
     private String location = null;
 
     @Override
@@ -135,7 +126,6 @@ public class WeatherActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.weather_layout);
-
         translucent();
 
         dbManager = WeatherInformationDbManager.getInstance(this);
@@ -146,66 +136,23 @@ public class WeatherActivity extends BaseActivity {
         boolean isRefresh = settings.getBoolean("is_refresh", true);
         int interval = settings.getInt("refresh_interval", HALF_HOUR);
         if (weatherInfo != null && ((time - loadTime()) < interval)) {
-            if (isRefresh) {
                 updateUI();
-            }
-        } else {
-            String cityID;
-            cityID = loadCityID();
-            if (!TextUtils.isEmpty(cityID)) {
-                showWeather(cityID);
-            } else if (ContextCompat.checkSelfPermission(this, LOCATION_PERMISSIONS[0])
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(WeatherActivity.this, LOCATION_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
-            } else {
-                getLocationAndShowWeather();
-            }
+        } else if(isRefresh) {
+                String cityID;
+                cityID = loadCityID();
+                if (!TextUtils.isEmpty(cityID)) {
+                    showWeather(cityID);
+                } else if (ContextCompat.checkSelfPermission(this, LOCATION_PERMISSIONS[0])
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(WeatherActivity.this, LOCATION_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
+                } else {
+                    getLocationAndShowWeather();
+                }
         }
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        if (requestCode == REQUEST_PERMISSION_OTHERS) {
-//
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED
-//                && grantResults[1] == PackageManager.PERMISSION_GRANTED
-//                && grantResults[2] == PackageManager.PERMISSION_GRANTED
-//                && grantResults[3] == PackageManager.PERMISSION_GRANTED
-//                && grantResults[4] == PackageManager.PERMISSION_GRANTED
-//                && grantResults[5] == PackageManager.PERMISSION_GRANTED) {
-//
-//                initUIComponents();
-//                String cityID;
-//                cityID = loadCityID();
-//                if (!TextUtils.isEmpty(cityID)){
-//                    showWeather(cityID);
-//                } else {
-//                    CustomDialog dialog = new CustomDialog(this);
-//                    dialog.show();
-//                    dialog.setCustomDialogText("当前没有选中的城市，确定后选择");
-//                    dialog.setCustomOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent(WeatherActivity.this, CityPickerActivity.class);
-//                            startActivityForResult(intent, START_CITY_PICKER);
-//                        }
-//                    });
-//                }
-//
-//            } else {
-//                CustomDialog dialog = new CustomDialog(this);
-//                dialog.show();
-//                dialog.setCustomDialogText("抱歉，没有必须的限权，应用将关闭...");
-//                dialog.setCustomOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        finish();
-//                    }
-//                });
-//            }
-//        }
-
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLocationAndShowWeather();
@@ -232,9 +179,9 @@ public class WeatherActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case START_CITY_PICKER:
-                    String cityid = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
-                    if (cityid != null) {
-                        showWeather(cityid);
+                    String cityId = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
+                    if (cityId != null) {
+                        showWeather(cityId);
                     }
                     break;
             }
@@ -242,7 +189,6 @@ public class WeatherActivity extends BaseActivity {
 
     }
 
-    @TargetApi(19)
     private void translucent () {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -258,50 +204,51 @@ public class WeatherActivity extends BaseActivity {
         }
     }
 
-
-    private void makeText(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
-
     private void initUIComponents() {
 
         mDrawerLayout = $(R.id.drawer_layout);
-        mLocationLinearLayout = $(R.id.navigation_location);
+        LinearLayout mLocationLinearLayout = $(R.id.navigation_location);
         mLocationLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
+                mDrawerLayout.closeDrawers();
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         Intent intent = new Intent(WeatherActivity.this, CityPickerActivity.class);
                         startActivityForResult(intent, START_CITY_PICKER);
                     }
 
-                }, SPLASH_DISPLAY_LENGH);
+                }, SPLASH_DISPLAY_LENGTH);
 
             }
         });
-        mSettingsLinearLayout = $(R.id.navigation_settings);
+        LinearLayout mSettingsLinearLayout = $(R.id.navigation_settings);
         mSettingsLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
+                mDrawerLayout.closeDrawers();
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         Intent intent = new Intent(WeatherActivity.this, SettingsActivity.class);
                         startActivity(intent);
                     }
 
-                }, SPLASH_DISPLAY_LENGH);
+                }, SPLASH_DISPLAY_LENGTH);
 
             }
         });
-        mAboutLinearLayout = $(R.id.navigation_about);
+        LinearLayout mAboutLinearLayout = $(R.id.navigation_about);
         mAboutLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WeatherActivity.this, AboutActivity.class);
-                startActivity(intent);
+                mDrawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Intent intent = new Intent(WeatherActivity.this, AboutActivity.class);
+                        startActivity(intent);
+                    }
+
+                }, SPLASH_DISPLAY_LENGTH);
             }
         });
 
@@ -346,7 +293,7 @@ public class WeatherActivity extends BaseActivity {
             }
         });
 
-        mChooseCounty = $(R.id.choose_county);
+        ImageView mChooseCounty = $(R.id.choose_county);
         mChooseCounty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -354,7 +301,7 @@ public class WeatherActivity extends BaseActivity {
             }
         });
 
-        mRefreshWeather = $(R.id.refresh_weather);
+        ImageView mRefreshWeather = $(R.id.refresh_weather);
         mRefreshWeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -372,14 +319,14 @@ public class WeatherActivity extends BaseActivity {
         mNowTemp = $(R.id.now_temp);
         mNowTempFl = $(R.id.now_temp_fl);
         mNowHum = $(R.id.now_hum);
-        mNowAqiAndpm25 = $(R.id.now_aqi);
+        mNowAqiAndPm25 = $(R.id.now_aqi);
         mLineChart = $(R.id.line_chart);
         mDaysWeek = $(R.id.days_week);
         mDaysWeatherIcon = $(R.id.days_weather_icon);
         mDaysWeatherTxt = $(R.id.days_weather_txt);
         mNightsWeatherIcon = $(R.id.nights_weather_icon);
         mNightsWeatherTxt = $(R.id.nights_weather_txt);
-        mDaysdate = $(R.id.days_date);
+        mDaysDate = $(R.id.days_date);
         mDaysWindDir = $(R.id.days_wind_dir);
         mDaysWindSc = $(R.id.days_wind_sc);
         mDaysRainPop = $(R.id.days_rain_pop);
@@ -404,7 +351,7 @@ public class WeatherActivity extends BaseActivity {
 
             mLocationClient = new AMapLocationClient(this);
             //初始化定位参数
-            mLocationOption = new AMapLocationClientOption();
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
             //设置定位监听
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             //设置定位间隔,单位毫秒,默认为2000ms
@@ -468,8 +415,15 @@ public class WeatherActivity extends BaseActivity {
                     ParseHeFeng parseHeFeng = new ParseHeFeng();
                     weatherInfo = parseHeFeng.parseDataFromServer(cityid, KEY);
                     Message message = new Message();
-                    message.what = REQUEST_FINISHED;
-                    handler.sendMessage(message);
+                    if (weatherInfo != null) {
+                        message.what = REQUEST_FINISHED;
+                        handler.sendMessage(message);
+                    } else {
+                        message.what = LIMITED_USAGE;
+                        handler.sendMessage(message);
+                    }
+
+
                 }
             }).start();
         } else {
@@ -506,7 +460,6 @@ public class WeatherActivity extends BaseActivity {
     }
 
     private void updateUI() {
-        dbManager.copyDBFile();
         SQLiteDatabase db = dbManager.getDatabase();
         ChooseIcon chooseIcon = ChooseIcon.getInstance();
         Map<String, Integer> iconMap = chooseIcon.getIconMap();
@@ -542,7 +495,7 @@ public class WeatherActivity extends BaseActivity {
         } else {
             temp = "空气：无数据" + "      Pm2.5：无数据" ;
         }
-        mNowAqiAndpm25.setText(temp);
+        mNowAqiAndPm25.setText(temp);
 
         //设置六天天气情况
         Day[] sevenDays = weatherInfo.getDaily().getSevenDays();
@@ -604,7 +557,7 @@ public class WeatherActivity extends BaseActivity {
             //设置六天的日期
             String[] array = sevenDays[i].getDate().split("-");
             String date = array[1] + "-" + array[2];
-            TextView dateTxt = (TextView) mDaysdate.getChildAt(i);
+            TextView dateTxt = (TextView) mDaysDate.getChildAt(i);
             dateTxt.setText(date);
             //设置六天的风向
             TextView windDir = (TextView) mDaysWindDir.getChildAt(i);
@@ -803,26 +756,12 @@ public class WeatherActivity extends BaseActivity {
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;// 屏幕宽度（像素）
-        int height= dm.heightPixels; // 屏幕高度（像素）
+        //int height= dm.heightPixels; // 屏幕高度（像素）
         float density = dm.density;//屏幕密度（0.75 / 1.0 / 1.5）
-        int densityDpi = dm.densityDpi;//屏幕密度dpi（120 / 160 / 240）
+        //int densityDpi = dm.densityDpi;//屏幕密度dpi（120 / 160 / 240）
         //屏幕宽度算法:屏幕宽度（像素）/屏幕密度
-        int screenWidth = (int) (width/density);//屏幕宽度(dp)
-        int screenHeight = (int)(height/density);//屏幕高度(dp)
-        return screenWidth;
-    }
-
-    private int getAddWidth(){
-        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        float density = dm.density;//屏幕密度（0.75 / 1.0 / 1.5）
-        //屏幕宽度算法:屏幕宽度（像素）/屏幕密度
-        if (Build.VERSION.SDK_INT >= 23) {
-            return (int) (24 * density);//屏幕宽度(dp)
-        } else {
-            return (int) (25 * density);//屏幕宽度(dp)
-        }
+        //int screenHeight = (int)(height/density);//屏幕高度(dp)
+        return (int) (width/density);
     }
 
     private void saveCityID(String cityID) {
@@ -877,6 +816,18 @@ public class WeatherActivity extends BaseActivity {
                 switch (msg.what) {
                     case REQUEST_FINISHED:
                         activity.updateUI();
+                        break;
+                    case LIMITED_USAGE:
+                        final CustomDialog dialog = new CustomDialog(activity);
+                        dialog.show();
+                        dialog.setCustomDialogText("非常抱歉，由于是个人开发者的原因，使用的是免费的天气接口，每日请求天气信息的总次数为3000次，今日次数已被耗尽");
+                        dialog.setCustomOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.cancel();
+                            }
+                        });
+                        break;
                     default:
                         break;
                 }

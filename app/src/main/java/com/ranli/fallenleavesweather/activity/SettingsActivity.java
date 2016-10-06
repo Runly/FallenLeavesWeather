@@ -27,15 +27,11 @@ public class SettingsActivity extends BaseActivity {
     public static final int ONE_HOUR = 3600000;
     public static final int FIVE_HOURS = 18000000;
     public static final int TWELVE_HOURS = 43200000;
-    private TextView mTitleText;
-    private ImageView mBackImage;
     private ImageView mIsRefreshImage;
-    private RelativeLayout mIntervalLayout;
     private ImageView mIsLocationImage;
     private TextView mIntervalText;
     private boolean isRefresh;
     private boolean isLocation;
-    private SharedPreferences spf;
     private SharedPreferences.Editor editor;
 
 
@@ -48,25 +44,29 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initUI() {
-        mBackImage = $(R.id.back);
+        ImageView mBackImage = $(R.id.back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        mTitleText = $(R.id.common_title_bar_Text);
+        TextView mTitleText = $(R.id.common_title_bar_Text);
         mTitleText.setText("设置");
 
-        spf = getSharedPreferences("settings", MODE_PRIVATE);
+        SharedPreferences spf = getSharedPreferences("settings", MODE_PRIVATE);
         editor = spf.edit();
 
         isRefresh = spf.getBoolean("is_refresh", true);
         mIsRefreshImage = $(R.id.is_refresh_image);
+        mIntervalText = $(R.id.interval_text);
+        RelativeLayout mIntervalLayout = $(R.id.refresh_interval);
         if (isRefresh) {
             mIsRefreshImage.setImageResource(R.drawable.on);
         } else {
             mIsRefreshImage.setImageResource(R.drawable.off);
+            mIntervalLayout.setClickable(false);
+            mIntervalText.setText("");
         }
         mIsRefreshImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +84,6 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
-        mIntervalText = $(R.id.interval_text);
         int interval = spf.getInt("refresh_interval", -1);
         switch (interval) {
             case IMMEDIATELY:
@@ -104,7 +103,7 @@ public class SettingsActivity extends BaseActivity {
                 break;
             default:
         }
-        mIntervalLayout = $(R.id.refresh_interval);
+
         mIntervalLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,8 +206,8 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void finish() {
         editor.apply();
+        super.finish();
     }
 }

@@ -54,16 +54,17 @@ public class ParseHeFeng {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+			return null;
 		}
 
 		return weatherInformation;
 	}
 	
-	public String requestFromServer(String cityId, String key) {
+	private String requestFromServer(String cityId, String key) {
 		String httpUrl = "https://api.heweather.com/x3/weather?cityid=" + cityId +"&key=" + key;
-		BufferedReader reader = null;
+		BufferedReader reader;
 		String result = null;
-		StringBuffer sbf = new StringBuffer();
+		StringBuilder sbf = new StringBuilder();
 		try {
 			URL url = new URL(httpUrl);
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -71,7 +72,7 @@ public class ParseHeFeng {
 			connection.connect();
 			InputStream is = connection.getInputStream();
 			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			String strRead = null;
+			String strRead;
 			while ((strRead = reader.readLine()) != null) {
 				sbf.append(strRead);
 				sbf.append("\r\n");
@@ -85,7 +86,7 @@ public class ParseHeFeng {
 	}
 	
 	//解析空气质量指数(aqi)?
-	public void parseAqi(JSONObject aqiJsonObj) {
+	private void parseAqi(JSONObject aqiJsonObj) {
 		Aqi aqi = new Aqi();
 		try {
 			JSONObject cityJsonObj = aqiJsonObj.getJSONObject("city");
@@ -144,7 +145,7 @@ public class ParseHeFeng {
 	}
 	
 	//解析基本信息(basic)
-	public void parseBasic(JSONObject basicJsonObj) {
+	private void parseBasic(JSONObject basicJsonObj) {
 		Basic basic = new Basic();
 		try {
 			basic.setCity(basicJsonObj.getString("city"));//城市名称
@@ -158,7 +159,7 @@ public class ParseHeFeng {
 	}
 	
 	//解析未来七天天气情况
-	public void parseDaily(JSONArray dailyJsonArray) {
+	private void parseDaily(JSONArray dailyJsonArray) {
 		JSONObject dayJsonObj;
 		Daily daily = new Daily();
 		int leng = dailyJsonArray.length();
@@ -197,18 +198,23 @@ public class ParseHeFeng {
 		weatherInformation.setDaily(daily);
 	}
 
-	public void parseNow(JSONObject nowJsonObj) {
+	//解析当前天气情况
+	private void parseNow(JSONObject nowJsonObj) {
 		Now now = new Now();
 		try {
 			JSONObject condJsonObj = nowJsonObj.getJSONObject("cond");
 			now.setCode(condJsonObj.getString("code"));//天气代码
 			now.setTxt(condJsonObj.getString("txt"));//天气描述
+			now.setTmp(nowJsonObj.getString("tmp"));//当前温度
 			now.setFl(nowJsonObj.getString("fl"));//体感温度
 			now.setHum(nowJsonObj.getString("hum"));//湿度
 			now.setPcpn(nowJsonObj.getString("pcpn"));//降雨量
-			now.setPres(nowJsonObj.getString("pres"));//压强
-			now.setTmp(nowJsonObj.getString("tmp"));//当前温度
-			now.setVis(nowJsonObj.getString("vis"));//能见度
+			if (nowJsonObj.has("pres")) {
+				now.setPres(nowJsonObj.getString("pres"));//压强
+			}
+			if (nowJsonObj.has("vis")) {
+				now.setVis(nowJsonObj.getString("vis"));//能见度
+			}
 			JSONObject windJsonObj = nowJsonObj.getJSONObject("wind");
 			now.setDir(windJsonObj.getString("dir"));//风向
 			now.setSc(windJsonObj.getString("sc"));//风力等级
@@ -221,7 +227,7 @@ public class ParseHeFeng {
 	}
 	
 	//解析生活指数
-	public void parseSuggestion(JSONObject suggestionJsonObj) {
+	private void parseSuggestion(JSONObject suggestionJsonObj) {
 		Suggestion suggestion = new Suggestion();
 		try {
 			//舒适度

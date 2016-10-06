@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,9 +30,6 @@ public class AboutActivity extends BaseActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     public static final int REQUEST_PERMISSION_LOCATION = 4;
-    private TextView mAboutTitleText;
-    private ImageView mBackImage;
-    private RelativeLayout mUpdateLayout;
     private String versionCode;
     private String downloadUrl;
     private Handler mHandler = new Handler();
@@ -44,10 +40,10 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_layout);
 
-        mAboutTitleText = $(R.id.common_title_bar_Text);
+        TextView mAboutTitleText = $(R.id.common_title_bar_Text);
         mAboutTitleText.setText("关于");
 
-        mBackImage = $(R.id.back);
+        ImageView mBackImage = $(R.id.back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +51,17 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        mUpdateLayout = $(R.id.version_update);
+        PackageInfo packageInfo;
+        try {
+            packageInfo = getApplication().getPackageManager().getPackageInfo(getApplication().getPackageName(), 0);
+            String str = "落叶天气\nv " + packageInfo.versionName;
+            TextView mVersionText = $(R.id.version_text_view);
+            mVersionText.setText(str);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        RelativeLayout mUpdateLayout = $(R.id.version_update);
         mUpdateLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +69,6 @@ public class AboutActivity extends BaseActivity {
                         new VersionCheckCallback() {
                     @Override
                     public void onSuccess(String versionJson) {
-                        Log.i("fir","check from fir.im success! " + "\n" + versionJson);
                         String results[] = VersinJsonUtil.parseVersionJson(versionJson);
                         versionCode = results[0];
                         downloadUrl = results[1];
@@ -72,18 +77,21 @@ public class AboutActivity extends BaseActivity {
                             pi = getApplication().getPackageManager().getPackageInfo(getApplication().getPackageName(), 0);
                             if (!TextUtils.isEmpty(versionCode) && pi != null) {
                                 int localVersionCode = pi.versionCode;
+
+                                //请求写入sdcard权限
                                 if (Integer.valueOf(versionCode) > localVersionCode){
-                                    Toast.makeText(getApplicationContext(), "正在下载...", Toast.LENGTH_SHORT).show();
                                     if (ContextCompat.checkSelfPermission(AboutActivity.this, WRITE_PERMISSIONS[0])
                                             != PackageManager.PERMISSION_GRANTED) {
                                         ActivityCompat.requestPermissions(AboutActivity.this, WRITE_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
                                     } else {
+                                        Toast.makeText(getApplicationContext(), "正在下载...", Toast.LENGTH_SHORT).show();
                                         mDownloadAsyncTask = new AsyncTaskUtil(AboutActivity.this, mHandler);
                                         mDownloadAsyncTask.execute(downloadUrl, "/落叶天气.apk");
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "已是最新版本", Toast.LENGTH_SHORT).show();
                                 }
+
                             }
                         } catch (PackageManager.NameNotFoundException e) {
                             e.printStackTrace();

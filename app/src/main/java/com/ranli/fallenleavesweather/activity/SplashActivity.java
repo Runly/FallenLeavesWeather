@@ -1,28 +1,30 @@
 package com.ranli.fallenleavesweather.activity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.ranli.fallenleavesweather.R;
+import com.ranli.fallenleavesweather.db.DBManager;
+import com.ranli.fallenleavesweather.db.WeatherInformationDbManager;
 import com.ranli.fallenleavesweather.util.ImageCompression;
+
+import java.lang.ref.WeakReference;
 
 
 /**
  * Created by Administrator on 2016/9/27.
  */
 public class SplashActivity extends BaseActivity{
-    private final int SPLASH_DISPLAY_LENGH = 1500; // 延迟1500毫秒
     private ImageView mImageView;
-    private Bitmap imageBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +35,29 @@ public class SplashActivity extends BaseActivity{
         setContentView(R.layout.splash_activity_layout);
         mImageView = $(R.id.falling_leaves);
         showPhoto();
-        new Handler().postDelayed(new Runnable() {
+
+        final MyHandler handler = new MyHandler(this);
+        new Thread(new Runnable() {
+            @Override
             public void run() {
-                Intent mainIntent = new Intent(SplashActivity.this,
-                        WeatherActivity.class);
-                SplashActivity.this.startActivity(mainIntent);
-                SplashActivity.this.finish();
+                initData();
+                Message message = new Message();
+                message.what = 1;
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                handler.sendMessage(message);
             }
+        }).start();
+    }
 
-        }, SPLASH_DISPLAY_LENGH);
-
+    public void initData() {
+        DBManager dbManager = new DBManager(this);
+        dbManager.copyDBFile();
+        WeatherInformationDbManager weatherDbManager = WeatherInformationDbManager.getInstance(this);
+        weatherDbManager.copyDBFile();
     }
 
     public void showPhoto() {
@@ -60,8 +75,34 @@ public class SplashActivity extends BaseActivity{
         options.inSampleSize = ImageCompression.calculateInSampleSize(options, width, height);
         options.inJustDecodeBounds = false;
         Bitmap src = BitmapFactory.decodeResource(resources, R.drawable.falling_leaves, options);
-        imageBitmap = ImageCompression.createScaleBitmap(src, width, height);
+        Bitmap imageBitmap = ImageCompression.createScaleBitmap(src, width, height);
         mImageView.setImageBitmap(imageBitmap);
+    }
+
+    private static class MyHandler extends Handler {
+
+        private final WeakReference<SplashActivity> mActivity;
+
+        public MyHandler(SplashActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            SplashActivity activity = mActivity.get();
+            if(activity != null) {
+                switch (msg.what) {
+                    case 1:
+                        Intent mainIntent = new Intent(activity, WeatherActivity.class);
+                        activity.startActivity(mainIntent);
+                        activity.finish();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
     }
 
 }
