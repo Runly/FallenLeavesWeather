@@ -96,10 +96,8 @@
 
         <RelativeLayout
             android:id="@+id/refresh_interval"
-            android:layout_width="wrap_content"
+            android:layout_width="384dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
             android:orientation="vertical"
             >
 
@@ -107,6 +105,8 @@
                 android:id="@+id/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/settings_refresh_interval"
@@ -117,11 +117,12 @@
                 android:id="@+id/interval_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginBottom="16dp"
                 android:layout_below="@id/text1"
                 android:text="@string/settings_interval_text"
                 android:textSize="12sp"
-                android:textColor="@android:color/darker_gray"
                 />
 
             <ImageView

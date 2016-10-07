@@ -1,7 +1,6 @@
 package com.ranli.fallenleavesweather.activity;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -805,7 +804,7 @@ public class WeatherActivity extends BaseActivity {
 
         private final WeakReference<WeatherActivity> mActivity;
 
-        public MyHandler(WeatherActivity activity) {
+        MyHandler(WeatherActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
