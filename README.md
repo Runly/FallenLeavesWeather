@@ -64,11 +64,11 @@ v 1.0.0 (Build 1)
 ###鸣谢
 **感谢以下开源项目的支持**
 
-MPAndroidChart -- github.com/PhilJay/MPAndroidChart
+MPAndroidChart -- https://github.com/PhilJay/MPAndroidChart
 
-XRefreshView -- github.com/huxq17/XRefreshView
+XRefreshView -- https://github.com/huxq17/XRefreshView
 
-CityPicker -- github.com/zaaach/CityPicker
+CityPicker -- https://github.com/zaaach/CityPicker
 
 以及众多CSDN博主的知识分享
 
