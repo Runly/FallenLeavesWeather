@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import com.ranli.fallenleavesweather.R;
 import com.ranli.fallenleavesweather.db.DBManager;
 import com.ranli.fallenleavesweather.db.WeatherInformationDbManager;
-import com.ranli.fallenleavesweather.util.ImageCompression;
+import com.ranli.fallenleavesweather.utils.ImageCompression;
 
 import java.lang.ref.WeakReference;
 
@@ -57,7 +57,7 @@ public class SplashActivity extends BaseActivity{
         DBManager dbManager = new DBManager(this);
         dbManager.copyDBFile();
         WeatherInformationDbManager weatherDbManager = WeatherInformationDbManager.getInstance(this);
-        weatherDbManager.copyDBFile();
+        weatherDbManager.copyDBFile(this);
     }
 
     public void showPhoto() {

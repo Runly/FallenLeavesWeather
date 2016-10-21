@@ -1,4 +1,4 @@
-package com.ranli.fallenleavesweather.util;
+package com.ranli.fallenleavesweather.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

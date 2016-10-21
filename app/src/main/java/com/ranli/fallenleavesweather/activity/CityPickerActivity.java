@@ -34,7 +34,7 @@ import com.ranli.fallenleavesweather.adapter.ResultListAdapter;
 import com.ranli.fallenleavesweather.db.DBManager;
 import com.ranli.fallenleavesweather.model.City;
 import com.ranli.fallenleavesweather.model.LocateState;
-import com.ranli.fallenleavesweather.util.StringUtils;
+import com.ranli.fallenleavesweather.utils.StringUtils;
 import com.ranli.fallenleavesweather.view.SideLetterBar;
 
 import java.util.List;

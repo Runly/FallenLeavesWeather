@@ -1,4 +1,4 @@
-package com.ranli.fallenleavesweather.util;
+package com.ranli.fallenleavesweather.utils;
 
 import com.ranli.fallenleavesweather.model.Aqi;
 import com.ranli.fallenleavesweather.model.Basic;
@@ -12,28 +12,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
-
 public class ParseHeFeng {
 	
 	private WeatherInformation weatherInformation;
-	
-	public WeatherInformation getWeatherInformation() {
-		return weatherInformation;
-	}
 
-	public void setWeatherInformation(WeatherInformation weatherInformation) {
-		this.weatherInformation = weatherInformation;
-	}
-
-	public WeatherInformation parseDataFromServer(String cityID, String key) {
+	public WeatherInformation parseResponse(String jsonData) {
 		weatherInformation = new WeatherInformation();
-		String jsonData = requestFromServer(cityID, key);
 		try {
 			JSONObject jsonObject = new JSONObject(jsonData);
 			JSONArray jsonArray = jsonObject.getJSONArray("HeWeather data service 3.0");
@@ -58,31 +42,6 @@ public class ParseHeFeng {
 		}
 
 		return weatherInformation;
-	}
-	
-	private String requestFromServer(String cityId, String key) {
-		String httpUrl = "https://api.heweather.com/x3/weather?cityid=" + cityId +"&key=" + key;
-		BufferedReader reader;
-		String result = null;
-		StringBuilder sbf = new StringBuilder();
-		try {
-			URL url = new URL(httpUrl);
-			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.connect();
-			InputStream is = connection.getInputStream();
-			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			String strRead;
-			while ((strRead = reader.readLine()) != null) {
-				sbf.append(strRead);
-				sbf.append("\r\n");
-			}
-			reader.close();
-			result = sbf.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
 	}
 	
 	//解析空气质量指数(aqi)?

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.ranli.fallenleavesweather.R;
 import com.ranli.fallenleavesweather.model.City;
 import com.ranli.fallenleavesweather.model.LocateState;
-import com.ranli.fallenleavesweather.util.PinyinUtils;
+import com.ranli.fallenleavesweather.utils.PinyinUtils;
 import com.ranli.fallenleavesweather.view.WrapHeightGridView;
 
 import java.util.ArrayList;

@@ -27,11 +27,11 @@ public class WeatherInformationDbManager {
 
     private String DB_PATH;
     private String WEATHERINFO_PATH;
-    private Context mContext;
+//    private Context mContext;
     private static WeatherInformationDbManager weatherInformationDbManager;
 
     private WeatherInformationDbManager(Context context) {
-        this.mContext = context;
+//        this.mContext = context;
         DB_PATH = File.separator + "data"
                 + Environment.getDataDirectory().getAbsolutePath() + File.separator
                 + context.getPackageName() + File.separator + "databases" + File.separator;
@@ -48,7 +48,7 @@ public class WeatherInformationDbManager {
         return weatherInformationDbManager;
     }
 
-    public void copyDBFile(){
+    public void copyDBFile(Context mContext ){
         File dir = new File(DB_PATH);
         if (!dir.exists()){
             dir.mkdirs();

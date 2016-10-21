@@ -43,6 +43,7 @@
                 android:textColor="@android:color/white"
                 android:visibility="gone"/>
 
+
             <com.ranli.fallenleavesweather.view.SideLetterBar
                 android:id="@+id/side_letter_bar"
                 android:layout_width="@dimen/side_letter_bar_width"

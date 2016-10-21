@@ -51,7 +51,9 @@
         </activity>
 
         <activity
-            android:name=".activity.CityPickerActivity">
+            android:name=".activity.CityPickerActivity"
+            android:windowSoftInputMode="adjustPan"
+            >
         </activity>
 
         <activity

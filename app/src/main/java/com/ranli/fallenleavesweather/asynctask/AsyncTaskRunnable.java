@@ -11,7 +11,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.ranli.fallenleavesweather.R;
-import com.ranli.fallenleavesweather.util.AsyncTaskUtil;
+import com.ranli.fallenleavesweather.utils.AsyncTaskUtil;
 
 import java.text.DecimalFormat;
 

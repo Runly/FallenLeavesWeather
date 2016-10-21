@@ -46,14 +46,16 @@ import com.ranli.fallenleavesweather.R;
 import com.ranli.fallenleavesweather.db.DBManager;
 import com.ranli.fallenleavesweather.db.WeatherInformationDbManager;
 import com.ranli.fallenleavesweather.dialog.CustomDialog;
+import com.ranli.fallenleavesweather.interfaces.RequestCallback;
 import com.ranli.fallenleavesweather.model.Aqi;
 import com.ranli.fallenleavesweather.model.Day;
 import com.ranli.fallenleavesweather.model.Now;
 import com.ranli.fallenleavesweather.model.Suggestion;
 import com.ranli.fallenleavesweather.model.WeatherInformation;
-import com.ranli.fallenleavesweather.util.ChooseIcon;
-import com.ranli.fallenleavesweather.util.ParseHeFeng;
-import com.ranli.fallenleavesweather.util.StringUtils;
+import com.ranli.fallenleavesweather.utils.ChooseIcon;
+import com.ranli.fallenleavesweather.utils.HttpRequestUtils;
+import com.ranli.fallenleavesweather.utils.ParseHeFeng;
+import com.ranli.fallenleavesweather.utils.StringUtils;
 import com.ranli.fallenleavesweather.view.SmileyHeaderView;
 
 import java.lang.ref.WeakReference;
@@ -62,6 +64,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+
+import static android.R.attr.key;
 
 
 /**
@@ -115,7 +119,6 @@ public class WeatherActivity extends BaseActivity {
     private TextView mGanMaoTxt;
     private CustomDialog mDialog;
     private WeatherInformation weatherInfo;
-    private MyHandler handler = new MyHandler(this);
     private WeatherInformationDbManager dbManager;
     private AMapLocationClient mLocationClient;
     private String location = null;
@@ -408,23 +411,32 @@ public class WeatherActivity extends BaseActivity {
             mDialog.cancel();
         }
         if (isNetworkAvailable()) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    ParseHeFeng parseHeFeng = new ParseHeFeng();
-                    weatherInfo = parseHeFeng.parseDataFromServer(cityid, KEY);
-                    Message message = new Message();
-                    if (weatherInfo != null) {
-                        message.what = REQUEST_FINISHED;
-                        handler.sendMessage(message);
-                    } else {
-                        message.what = LIMITED_USAGE;
-                        handler.sendMessage(message);
+            String url = "https://api.heweather.com/x3/weather?cityid=" + cityid +"&key=" + KEY;
+            HttpRequestUtils.getInstance().requestFromHeWeather(
+                    url,
+                    new RequestCallback() {
+                        @Override
+                        public void onSuccess(String response) {
+                            ParseHeFeng parseHeFeng = new ParseHeFeng();
+                            weatherInfo = parseHeFeng.parseResponse(response);
+                            updateUI();
+                        }
+
+                        @Override
+                        public void onFail(String error) {
+                            final CustomDialog dialog = new CustomDialog(WeatherActivity.this);
+                            dialog.show();
+                            dialog.setCustomDialogText("非常抱歉，获取天气数据失败");
+                            dialog.setCustomOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.cancel();
+                                }
+                            });
+                        }
                     }
 
-
-                }
-            }).start();
+            );
         } else {
             mDialog = new CustomDialog(this);
             mDialog.show();
@@ -798,41 +810,4 @@ public class WeatherActivity extends BaseActivity {
         }
         return cityid;
     }
-
-    //定义了一个static的inner Class MyHandler然后让它持有Activity的弱引用,这样lint warning就消失了0.0...
-    private static class MyHandler extends Handler {
-
-        private final WeakReference<WeatherActivity> mActivity;
-
-        MyHandler(WeatherActivity activity) {
-            mActivity = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            WeatherActivity activity = mActivity.get();
-            if(activity != null) {
-                switch (msg.what) {
-                    case REQUEST_FINISHED:
-                        activity.updateUI();
-                        break;
-                    case LIMITED_USAGE:
-                        final CustomDialog dialog = new CustomDialog(activity);
-                        dialog.show();
-                        dialog.setCustomDialogText("非常抱歉，由于是个人开发者的原因，使用的是免费的天气接口，每日请求天气信息的总次数为3000次，今日次数已被耗尽");
-                        dialog.setCustomOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.cancel();
-                            }
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-        }
-    }
-
 }

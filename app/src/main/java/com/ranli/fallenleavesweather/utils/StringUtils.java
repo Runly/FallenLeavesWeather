@@ -1,4 +1,4 @@
-package com.ranli.fallenleavesweather.util;
+package com.ranli.fallenleavesweather.utils;
 
 /**
  * author zaaach on 2016/1/26.

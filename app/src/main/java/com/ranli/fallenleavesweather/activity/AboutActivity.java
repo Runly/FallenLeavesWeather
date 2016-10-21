@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ranli.fallenleavesweather.R;
-import com.ranli.fallenleavesweather.util.AsyncTaskUtil;
-import com.ranli.fallenleavesweather.util.VersinJsonUtil;
+import com.ranli.fallenleavesweather.utils.AsyncTaskUtil;
+import com.ranli.fallenleavesweather.utils.VersinJsonUtil;
 
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;

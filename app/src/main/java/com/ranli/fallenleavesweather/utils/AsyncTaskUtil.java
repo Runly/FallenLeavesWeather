@@ -1,4 +1,4 @@
-package com.ranli.fallenleavesweather.util;
+package com.ranli.fallenleavesweather.utils;
 
 /**
  * Created by Administrator on 2016/10/1.
