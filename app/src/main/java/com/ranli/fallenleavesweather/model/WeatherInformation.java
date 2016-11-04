@@ -145,7 +145,7 @@ public class WeatherInformation implements Serializable{
         this.hourly_forecast = hourly_forecast;
     }
 
-    public static class Aqi {
+    public static class Aqi implements Serializable{
         /**
          * aqi : 250
          * co : 3
@@ -157,6 +157,8 @@ public class WeatherInformation implements Serializable{
          * so2 : 4
          */
 
+        private static final long serialVersionUID = 8088539235914663818L;
+
         private CityBean city;
 
         public CityBean getCity() {
@@ -167,7 +169,8 @@ public class WeatherInformation implements Serializable{
             this.city = city;
         }
 
-        public static class CityBean {
+        public static class CityBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663817L;
             private String aqi;
             private String co;
             private String no2;
@@ -243,7 +246,7 @@ public class WeatherInformation implements Serializable{
         }
     }
 
-    public static class Basic {
+    public static class Basic implements Serializable{
         private String city;
         private String cnty;
         private String id;
@@ -304,7 +307,8 @@ public class WeatherInformation implements Serializable{
             this.update = update;
         }
 
-        public static class Update {
+        public static class Update implements Serializable{
+            private static final long serialVersionUID = 8088539235914663816L;
             private String loc;
             private String utc;
 
@@ -326,12 +330,12 @@ public class WeatherInformation implements Serializable{
         }
     }
 
-    public static class Now {
+    public static class Now implements Serializable{
         /**
          * code : 501
          * txt : 雾
          */
-
+        private static final long serialVersionUID = 8088539235914663815L;
         private CondBean cond;
         private String fl;
         private String hum;
@@ -412,7 +416,8 @@ public class WeatherInformation implements Serializable{
             this.wind = wind;
         }
 
-        public static class CondBean {
+        public static class CondBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663814L;
             private String code;
             private String txt;
 
@@ -433,7 +438,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class WindBean {
+        public static class WindBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663813L;
             private String deg;
             private String dir;
             private String sc;
@@ -473,7 +479,8 @@ public class WeatherInformation implements Serializable{
         }
     }
 
-    public static class Suggestion {
+    public static class Suggestion implements Serializable{
+        private static final long serialVersionUID = 8088539235914663812L;
         /**
          * brf : 舒适
          * txt : 白天不太热也不太冷，风力不大，相信您在这样的天气条件下，应会感到比较清爽和舒适。
@@ -573,7 +580,8 @@ public class WeatherInformation implements Serializable{
             this.uv = uv;
         }
 
-        public static class ComfBean {
+        public static class ComfBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663811L;
             private String brf;
             private String txt;
 
@@ -594,7 +602,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class CwBean {
+        public static class CwBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663809L;
             private String brf;
             private String txt;
 
@@ -615,7 +624,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class DrsgBean {
+        public static class DrsgBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663808L;
             private String brf;
             private String txt;
 
@@ -636,7 +646,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class FluBean {
+        public static class FluBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663807L;
             private String brf;
             private String txt;
 
@@ -657,7 +668,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class SportBean {
+        public static class SportBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663806L;
             private String brf;
             private String txt;
 
@@ -678,7 +690,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class TravBean {
+        public static class TravBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663807L;
             private String brf;
             private String txt;
 
@@ -699,7 +712,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class UvBean {
+        public static class UvBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663806L;
             private String brf;
             private String txt;
 
@@ -721,7 +735,8 @@ public class WeatherInformation implements Serializable{
         }
     }
 
-    public static class DailyForecast {
+    public static class DailyForecast implements Serializable{
+        private static final long serialVersionUID = 8088539235914663805L;
         /**
          * sr : 06:47
          * ss : 17:08
@@ -837,7 +852,8 @@ public class WeatherInformation implements Serializable{
             this.wind = wind;
         }
 
-        public static class AstroBean {
+        public static class AstroBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663803L;
             private String sr;
             private String ss;
 
@@ -858,7 +874,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class CondBean {
+        public static class CondBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663802L;
             private String code_d;
             private String code_n;
             private String txt_d;
@@ -897,7 +914,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class TmpBean {
+        public static class TmpBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663800L;
             private String max;
             private String min;
 
@@ -918,7 +936,8 @@ public class WeatherInformation implements Serializable{
             }
         }
 
-        public static class WindBean {
+        public static class WindBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663719L;
             private String deg;
             private String dir;
             private String sc;
@@ -958,7 +977,8 @@ public class WeatherInformation implements Serializable{
         }
     }
 
-    public static class HourlyForecast {
+    public static class HourlyForecast implements Serializable{
+        private static final long serialVersionUID = 8088539235914663519L;
         private String date;
         private String hum;
         private String pop;
@@ -1021,7 +1041,8 @@ public class WeatherInformation implements Serializable{
             this.wind = wind;
         }
 
-        public static class WindBean {
+        public static class WindBean implements Serializable{
+            private static final long serialVersionUID = 8088539235914663319L;
             private String deg;
             private String dir;
             private String sc;
