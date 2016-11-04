@@ -9,8 +9,6 @@ import com.android.volley.toolbox.Volley;
 import com.ranli.fallenleavesweather.activity.MyApplication;
 import com.ranli.fallenleavesweather.interfaces.RequestCallback;
 
-import java.util.Map;
-
 /**
  * Created by Administrator on 2016/10/21 0021.
  */
