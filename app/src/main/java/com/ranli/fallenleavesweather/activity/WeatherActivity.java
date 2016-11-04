@@ -412,6 +412,7 @@ public class WeatherActivity extends BaseActivity {
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
+
             HeFengService heFengService = retrofit.create(HeFengService.class);
             Call<WeatherInformation> model = heFengService.response(cityid, KEY);
             model.enqueue(new Callback<WeatherInformation>() {
@@ -420,7 +421,6 @@ public class WeatherActivity extends BaseActivity {
                     weatherInfo = response.body().list.get(0);
                     updateUI();
                 }
-
                 @Override
                 public void onFailure(Call<WeatherInformation> call, Throwable t) {
                     final CustomDialog dialog = new CustomDialog(WeatherActivity.this);

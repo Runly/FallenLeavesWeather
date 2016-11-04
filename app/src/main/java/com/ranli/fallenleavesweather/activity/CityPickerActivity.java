@@ -216,7 +216,6 @@ public class CityPickerActivity extends BaseActivity implements View.OnClickList
     }
 
     private void back(String city){
-//        ToastUtils.showToast(this, "点击的城市：" + city);
         SQLiteDatabase db = dbManager.getDatabase();
         String cityid;
         Cursor cursor = db.query("city", new String[] {"name", "cityid"}, "name = ?",

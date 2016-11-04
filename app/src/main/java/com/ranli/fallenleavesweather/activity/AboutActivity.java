@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.ranli.fallenleavesweather.R;
 import com.ranli.fallenleavesweather.utils.AsyncTaskUtil;
-import com.ranli.fallenleavesweather.utils.VersinJsonUtil;
+import com.ranli.fallenleavesweather.utils.VersionJsonUtil;
 
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
@@ -69,7 +69,7 @@ public class AboutActivity extends BaseActivity {
                         new VersionCheckCallback() {
                     @Override
                     public void onSuccess(String versionJson) {
-                        String results[] = VersinJsonUtil.parseVersionJson(versionJson);
+                        String results[] = VersionJsonUtil.parseVersionJson(versionJson);
                         versionCode = results[0];
                         downloadUrl = results[1];
                         PackageInfo pi;
