@@ -157,11 +157,11 @@ Retrofit -- https://github.com/square/retrofit
 
 Gson -- https://github.com/google/gson
 
-MPAndroidChart -- github.com/PhilJay/MPAndroidChart
+MPAndroidChart -- https://github.com/PhilJay/MPAndroidChart
 
-XRefreshView -- github.com/huxq17/XRefreshView
+XRefreshView -- https://github.com/huxq17/XRefreshView
 
-CityPicker -- github.com/zaaach/CityPicker
+CityPicker -- https://github.com/zaaach/CityPicker
 
 以及众多大神博主们的知识分享
 
@@ -173,7 +173,7 @@ CityPicker -- github.com/zaaach/CityPicker
 
 和风天气接口服务 -- http://heweather.com
 
-fir.im应用托管分发服务的平台 -- http://fir.im****
+fir.im应用托管分发服务的平台 -- http://fir.im
 
 ###版权
 应用图标图片资源据来自网络公开资源，如有侵权，联系ranly314@gmail.com
