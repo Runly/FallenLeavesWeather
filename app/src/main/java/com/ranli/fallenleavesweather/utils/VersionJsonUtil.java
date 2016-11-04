@@ -8,7 +8,7 @@ import org.json.JSONObject;
 /**
  * Created by Administrator on 2016/10/1.
  */
-public class VersinJsonUtil {
+public class VersionJsonUtil {
 
     public static String[] parseVersionJson(String versionJson) {
         String results[] = new String[2];
