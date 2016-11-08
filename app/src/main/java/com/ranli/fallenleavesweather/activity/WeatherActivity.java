@@ -45,9 +45,10 @@ import com.ranli.fallenleavesweather.R;
 import com.ranli.fallenleavesweather.db.DBManager;
 import com.ranli.fallenleavesweather.db.WeatherInformationDbManager;
 import com.ranli.fallenleavesweather.dialog.CustomDialog;
-import com.ranli.fallenleavesweather.interfaces.HeFengService;
 import com.ranli.fallenleavesweather.model.WeatherInformation;
+import com.ranli.fallenleavesweather.model.WeatherInformation.HeWeather5;
 import com.ranli.fallenleavesweather.utils.ChooseIcon;
+import com.ranli.fallenleavesweather.utils.HttpUtils;
 import com.ranli.fallenleavesweather.utils.StringUtils;
 import com.ranli.fallenleavesweather.view.SmileyHeaderView;
 
@@ -57,11 +58,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
 
 
 /**
@@ -69,14 +66,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class WeatherActivity extends BaseActivity {
 
-    private static final String[] LOCATION_PERMISSIONS = new String[] {
+    private static final String[] LOCATION_PERMISSIONS = new String[]{
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
     private static final int REQUEST_PERMISSION_LOCATION = 3;
     private static final int START_CITY_PICKER = 1;
     private static final int REQUEST_FINISHED = 2;
     private static final int HALF_HOUR = 30 * 60 * 1000;
-    private static final String KEY = "b23a0a8f079147e1a1d809faa44c8b87";
     private static final int SPLASH_DISPLAY_LENGTH = 350; // 延迟350毫秒
     private static final int LIMITED_USAGE = 404;
     private DrawerLayout mDrawerLayout;
@@ -134,18 +130,18 @@ public class WeatherActivity extends BaseActivity {
         boolean isRefresh = settings.getBoolean("is_refresh", true);
         int interval = settings.getInt("refresh_interval", HALF_HOUR);
         if (weatherInfo != null && ((time - loadTime()) < interval)) {
-                updateUI();
-        } else if(isRefresh) {
-                String cityID;
-                cityID = loadCityID();
-                if (!TextUtils.isEmpty(cityID)) {
-                    showWeather(cityID);
-                } else if (ContextCompat.checkSelfPermission(this, LOCATION_PERMISSIONS[0])
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(WeatherActivity.this, LOCATION_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
-                } else {
-                    getLocationAndShowWeather();
-                }
+            updateUI();
+        } else if (isRefresh) {
+            String cityID;
+            cityID = loadCityID();
+            if (!TextUtils.isEmpty(cityID)) {
+                showWeather(cityID);
+            } else if (ContextCompat.checkSelfPermission(this, LOCATION_PERMISSIONS[0])
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(WeatherActivity.this, LOCATION_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
+            } else {
+                getLocationAndShowWeather();
+            }
         }
     }
 
@@ -187,7 +183,7 @@ public class WeatherActivity extends BaseActivity {
 
     }
 
-    private void translucent () {
+    private void translucent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -196,7 +192,7 @@ public class WeatherActivity extends BaseActivity {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
@@ -251,7 +247,6 @@ public class WeatherActivity extends BaseActivity {
         });
 
 
-
         xRefreshView = $(R.id.custom_view);
         xRefreshView.setCustomHeaderView(new SmileyHeaderView(this));
         xRefreshView.setPullRefreshEnable(true);
@@ -260,7 +255,7 @@ public class WeatherActivity extends BaseActivity {
             public void onRefresh() {
                 String cityID;
                 cityID = loadCityID();
-                if (!TextUtils.isEmpty(cityID)){
+                if (!TextUtils.isEmpty(cityID)) {
                     showWeather(cityID);
                 }
                 xRefreshView.stopRefresh();
@@ -305,7 +300,7 @@ public class WeatherActivity extends BaseActivity {
             public void onClick(View v) {
                 String cityID;
                 cityID = loadCityID();
-                if (!TextUtils.isEmpty(cityID)){
+                if (!TextUtils.isEmpty(cityID)) {
                     showWeather(cityID);
                 }
             }
@@ -347,57 +342,57 @@ public class WeatherActivity extends BaseActivity {
 
     private void getLocationAndShowWeather() {
 
-            mLocationClient = new AMapLocationClient(this);
-            //初始化定位参数
+        mLocationClient = new AMapLocationClient(this);
+        //初始化定位参数
         AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
-            //设置定位监听
-            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-            //设置定位间隔,单位毫秒,默认为2000ms
-            mLocationOption.setInterval(2000);
-            //设置定位参数
-            mLocationClient.setLocationOption(mLocationOption);
+        //设置定位监听
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(2000);
+        //设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
 
-            mLocationClient.setLocationListener(new AMapLocationListener() {
-                @Override
-                public void onLocationChanged(AMapLocation aMapLocation) {
-                    if (aMapLocation != null) {
-                        if (aMapLocation.getErrorCode() == 0) {
-                            //定位成功回调信息，设置相关消息
-                            String city = aMapLocation.getCity();
-                            String district = aMapLocation.getDistrict();
-                            location = StringUtils.extractLocation(city, district);
-                            if (!TextUtils.isEmpty(location)) {
-                                String cityID = queryCityID(location);
-                                if (!TextUtils.isEmpty(cityID)) {
-                                    showWeather(cityID);
-                                    mLocationClient.stopLocation();
-                                }
-                            } else {
-                                showWeather("CN101010100");
+        mLocationClient.setLocationListener(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    if (aMapLocation.getErrorCode() == 0) {
+                        //定位成功回调信息，设置相关消息
+                        String city = aMapLocation.getCity();
+                        String district = aMapLocation.getDistrict();
+                        location = StringUtils.extractLocation(city, district);
+                        if (!TextUtils.isEmpty(location)) {
+                            String cityID = queryCityID(location);
+                            if (!TextUtils.isEmpty(cityID)) {
+                                showWeather(cityID);
                                 mLocationClient.stopLocation();
                             }
                         } else {
-                            //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                            Log.e("AmapError","location Error, ErrCode:"
-                                    + aMapLocation.getErrorCode() + ", errInfo:"
-                                    + aMapLocation.getErrorInfo());
-                            final CustomDialog dialog = new CustomDialog(WeatherActivity.this);
-                            dialog.show();
-                            dialog.setCustomDialogText("很可惜，定位失败了，没关系，你可以手动选择城市~~~");
-                            dialog.setCustomOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(WeatherActivity.this, CityPickerActivity.class);
-                                    startActivityForResult(intent,START_CITY_PICKER);
-                                    dialog.cancel();
-                                }
-                            });
+                            showWeather("CN101010100");
                             mLocationClient.stopLocation();
                         }
+                    } else {
+                        //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                        Log.e("AmapError", "location Error, ErrCode:"
+                                + aMapLocation.getErrorCode() + ", errInfo:"
+                                + aMapLocation.getErrorInfo());
+                        final CustomDialog dialog = new CustomDialog(WeatherActivity.this);
+                        dialog.show();
+                        dialog.setCustomDialogText("很可惜，定位失败了，没关系，你可以手动选择城市~~~");
+                        dialog.setCustomOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(WeatherActivity.this, CityPickerActivity.class);
+                                startActivityForResult(intent, START_CITY_PICKER);
+                                dialog.cancel();
+                            }
+                        });
+                        mLocationClient.stopLocation();
                     }
                 }
-            });
-            mLocationClient.startLocation();
+            }
+        });
+        mLocationClient.startLocation();
     }
 
     private void showWeather(final String cityid) {
@@ -407,58 +402,44 @@ public class WeatherActivity extends BaseActivity {
             mDialog.cancel();
         }
         if (isNetworkAvailable()) {
-            String baseUrl = "https://api.heweather.com/x3/";
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
 
-            HeFengService heFengService = retrofit.create(HeFengService.class);
-            Call<WeatherInformation> model = heFengService.response(cityid, KEY);
-            model.enqueue(new Callback<WeatherInformation>() {
+            Subscriber<WeatherInformation> subscriber = new Subscriber<WeatherInformation>() {
                 @Override
-                public void onResponse(Call<WeatherInformation> call, Response<WeatherInformation> response) {
-                    weatherInfo = response.body().list.get(0);
-                    updateUI();
+                public void onCompleted() {
+
                 }
+
                 @Override
-                public void onFailure(Call<WeatherInformation> call, Throwable t) {
-                    final CustomDialog dialog = new CustomDialog(WeatherActivity.this);
+                public void onError(Throwable e) {
+                    CustomDialog dialog = new CustomDialog(WeatherActivity.this);
                     dialog.show();
                     dialog.setCustomDialogText("非常抱歉，获取天气数据失败");
-                    dialog.setCustomOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.cancel();
-                        }
-                    });
+                    dialog.setCustomOnClickListener(v -> dialog.cancel());
                 }
-            });
+
+                @Override
+                public void onNext(WeatherInformation weatherInformation) {
+                    weatherInfo = weatherInformation;
+                }
+            };
+
+            HttpUtils.getInstance().getWeatherInfo(subscriber, cityid);
+            updateUI();
         } else {
             mDialog = new CustomDialog(this);
             mDialog.show();
             mDialog.setCustomDialogText("有网络吗？你如果不检查网络设置，我可能还会出现，返回键可以让暂时我消失~~~");
-            mDialog.setCustomOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showWeather(cityid);
-                }
-            });
+            mDialog.setCustomOnClickListener(v -> showWeather(cityid));
         }
-
-//        Intent intent = new Intent(this, UpdateService.class);
-//        startService(intent);
     }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
             NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (info != null && info.isConnected())
-            {
+            if (info != null && info.isConnected()) {
                 // 当前网络是连接的
-                if (info.getState() == NetworkInfo.State.CONNECTED)
-                {
+                if (info.getState() == NetworkInfo.State.CONNECTED) {
                     // 当前所连接的网络可用
                     return true;
                 }
@@ -473,50 +454,51 @@ public class WeatherActivity extends BaseActivity {
         Map<String, Integer> iconMap = chooseIcon.getIconMap();
 
         //设置更新时间和城市
-        String[] arr = weatherInfo.getBasic().getUpdate().getLoc().split(" ");
-        String temp = arr[0] +"\n" + arr[1] + "更新";
+        HeWeather5.Basic basic = weatherInfo.HeWeather5.get(0).basic;
+        String[] arr = basic.update.loc.split(" ");
+        String temp = arr[0] + "\n" + arr[1] + "更新";
         Log.d("更新时间和城市", temp);
         mDateOfWeather.setText(temp);
-        mCityNameText.setText(weatherInfo.getBasic().getCity());
+        mCityNameText.setText(basic.city);
 
         //设置当前天气状况
-        WeatherInformation.Now now = weatherInfo.getNow();
-        Cursor cursorNow = db.query("weather", new String[] {"weather_code", "weather_icon"},
-                "weather_code = ?", new String[] {now.getCond().getCode()}, null, null, null);
-        if (cursorNow  != null && cursorNow.moveToFirst()) {
+        HeWeather5.Now now = weatherInfo.HeWeather5.get(0).now;
+        Cursor cursorNow = db.query("weather", new String[]{"weather_code", "weather_icon"},
+                "weather_code = ?", new String[]{now.cond.code}, null, null, null);
+        if (cursorNow != null && cursorNow.moveToFirst()) {
             String iconTxt = cursorNow.getString(cursorNow.getColumnIndex("weather_icon"));
             int src = iconMap.get(iconTxt);
             mNowImage.setImageResource(src);
             cursorNow.close();
         }
-        mNowWeatherTxt.setText(now.getCond().getTxt());
-        temp = now.getTmp() + "°";
+        mNowWeatherTxt.setText(now.cond.txt);
+        temp = now.tmp + "°";
         mNowTemp.setText(temp);
-        temp = "体感" + now.getFl() + "°   ";
+        temp = "体感" + now.fl + "°   ";
         mNowTempFl.setText(temp);
-        temp = "   湿度" + now.getHum() + "%";
+        temp = "   湿度" + now.hum + "%";
         mNowHum.setText(temp);
 
         //设置空气指数
-        WeatherInformation.Aqi aqi = weatherInfo.getAqi();
+        HeWeather5.Aqi aqi = weatherInfo.HeWeather5.get(0).aqi;
         if (aqi != null) {
-            temp = "空气：" + aqi.getCity().getQlty() + "      Pm2.5：" + aqi.getCity().getPm25();
+            temp = "空气：" + aqi.city.qlty + "      Pm2.5：" + aqi.city.pm25;
         } else {
-            temp = "空气：无数据" + "      Pm2.5：无数据" ;
+            temp = "空气：无数据" + "      Pm2.5：无数据";
         }
         mNowAqiAndPm25.setText(temp);
 
         //设置六天天气情况
-        List<WeatherInformation.DailyForecast> sevenDays = weatherInfo.getDaily_forecast();
+        List<HeWeather5.DailyForecast> sevenDays = weatherInfo.HeWeather5.get(0).daily_forecast;
         //画出折线图
         LineData lineData = new LineData();
         List<Integer> temps = new ArrayList<>();
-        for (int i =0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 6; j++) {
                 if (i == 0) {
-                    temps.add(Integer.valueOf(sevenDays.get(j).getTmp().getMax()));
+                    temps.add(Integer.valueOf(sevenDays.get(j).tmp.max));
                 } else if (i == 1) {
-                    temps.add(Integer.valueOf(sevenDays.get(j).getTmp().getMin()));
+                    temps.add(Integer.valueOf(sevenDays.get(j).tmp.min));
                 }
             }
             LineDataSet lineDataSet = getLineDataSet(6, temps);
@@ -526,7 +508,7 @@ public class WeatherActivity extends BaseActivity {
         showChart(mLineChart, lineData);
 
         int width = getAndroidScreenProperty();
-        for(int i = 0; i < mDaysWeatherTxt.getChildCount(); i++) {
+        for (int i = 0; i < mDaysWeatherTxt.getChildCount(); i++) {
             //设置六天是星期几
             TextView weekTxt = (TextView) mDaysWeek.getChildAt(i);
             if (i == 0) {
@@ -536,8 +518,8 @@ public class WeatherActivity extends BaseActivity {
             }
             //设置六天白天天气图标
             ImageView dayWeatherIcon = (ImageView) mDaysWeatherIcon.getChildAt(i);
-            Cursor cursorDay = db.query("weather", new String[] {"weather_code", "weather_icon"},
-                    "weather_code = ?", new String[] {sevenDays.get(i).getCond().getCode_d()}, null, null, null);
+            Cursor cursorDay = db.query("weather", new String[]{"weather_code", "weather_icon"},
+                    "weather_code = ?", new String[]{sevenDays.get(i).cond.code_d}, null, null, null);
             if (cursorDay != null && cursorDay.moveToFirst()) {
                 String iconTxt = cursorDay.getString(cursorDay.getColumnIndex("weather_icon"));
                 int src = iconMap.get(iconTxt);
@@ -546,13 +528,13 @@ public class WeatherActivity extends BaseActivity {
             }
             //设置六天白天的天气描述
             TextView dayWeatherTxt = (TextView) mDaysWeatherTxt.getChildAt(i);
-            dayWeatherTxt.setWidth(width/6);
-            dayWeatherTxt.setText(sevenDays.get(i).getCond().getTxt_d());
+            dayWeatherTxt.setWidth(width / 6);
+            dayWeatherTxt.setText(sevenDays.get(i).cond.txt_d);
 
             //设置六天夜间天气图标
             ImageView nightWeatherIcon = (ImageView) mNightsWeatherIcon.getChildAt(i);
-            Cursor cursorNight = db.query("weather", new String[] {"weather_code", "weather_icon"},
-                    "weather_code = ?", new String[] {sevenDays.get(i).getCond().getCode_n()}, null, null, null);
+            Cursor cursorNight = db.query("weather", new String[]{"weather_code", "weather_icon"},
+                    "weather_code = ?", new String[]{sevenDays.get(i).cond.code_n}, null, null, null);
             if (cursorNight != null && cursorNight.moveToFirst()) {
                 String iconTxt = cursorNight.getString(cursorNight.getColumnIndex("weather_icon"));
                 int src = iconMap.get(iconTxt);
@@ -561,77 +543,63 @@ public class WeatherActivity extends BaseActivity {
             }
             //设置六天晚上的天气描述
             TextView nightWeatherTxt = (TextView) mNightsWeatherTxt.getChildAt(i);
-            nightWeatherTxt.setWidth(width/6);
-            nightWeatherTxt.setText(sevenDays.get(i).getCond().getTxt_n());
+            nightWeatherTxt.setWidth(width / 6);
+            nightWeatherTxt.setText(sevenDays.get(i).cond.txt_n);
             //设置六天的日期
-            String[] array = sevenDays.get(i).getDate().split("-");
+            String[] array = sevenDays.get(i).date.split("-");
             String date = array[1] + "-" + array[2];
             TextView dateTxt = (TextView) mDaysDate.getChildAt(i);
             dateTxt.setText(date);
             //设置六天的风向
             TextView windDir = (TextView) mDaysWindDir.getChildAt(i);
-            windDir.setWidth(width/6);
-            StringBuffer str = new StringBuffer(sevenDays.get(i).getWind().getDir());
+            windDir.setWidth(width / 6);
+            StringBuffer str = new StringBuffer(sevenDays.get(i).wind.dir);
             if (str.length() > 4) {
                 str.insert(4, "\n");
             }
             windDir.setText(str);
             //设置六天的风力
             TextView windSc = (TextView) mDaysWindSc.getChildAt(i);
-            windSc.setWidth(width/6);
-            windSc.setText(sevenDays.get(i).getWind().getSc());
+            windSc.setWidth(width / 6);
+            windSc.setText(sevenDays.get(i).wind.sc);
             //设置六天降水概率
             TextView rainPop = (TextView) mDaysRainPop.getChildAt(i);
-            rainPop.setWidth(width/6);
-            String pop = sevenDays.get(i).getPop() + "%";
+            rainPop.setWidth(width / 6);
+            String pop = sevenDays.get(i).pop + "%";
             rainPop.setText(pop);
         }
 
         //设置生活指数
-        WeatherInformation.Suggestion suggestion = weatherInfo.getSuggestion();
+        HeWeather5.Suggestion suggestion = weatherInfo.HeWeather5.get(0).suggestion;
         if (suggestion != null) {
             //舒适指数
-            arr[0] = suggestion.getComf().getBrf();
-            temp = "舒适指数    " + arr[0];
+            temp = "舒适指数    " + suggestion.comf.brf;
             mShuShiTitle.setText(temp);
-            arr[1] = suggestion.getComf().getTxt();
-            mShuShiTxt.setText(arr[1]);
+            mShuShiTxt.setText(suggestion.comf.txt);
             //穿衣指数
-            arr[0] = suggestion.getDrsg().getBrf();
-            temp = "穿衣指数    " + arr[0];
+            temp = "穿衣指数    " + suggestion.drsg.brf;
             mChuanYiTile.setText(temp);
-            arr[1] = suggestion.getDrsg().getTxt();
-            mChuanYiTxt.setText(arr[1]);
+            mChuanYiTxt.setText(suggestion.drsg.txt);
             //防晒指数
-            arr[0] = suggestion.getUv().getBrf();
-            temp = "防晒指数    " + arr[0];
+            temp = "防晒指数    " + suggestion.uv.brf;
             mFangShaiTile.setText(temp);
-            arr[1] = suggestion.getUv().getTxt();
-            mFangShaiTxt.setText(arr[1]);
+            mFangShaiTxt.setText(suggestion.uv.txt);
             //运动指数
-            arr[0] = suggestion.getSport().getBrf();
-            temp = "运动指数    " + arr[0];
+            temp = "运动指数    " + suggestion.sport.brf;
             mYunDongTile.setText(temp);
-            arr[1] = suggestion.getSport().getTxt();
-            mYunDongTxt.setText(arr[1]);
+            mYunDongTxt.setText(suggestion.sport.txt);
             //洗车指数
-            arr[0] = suggestion.getCw().getBrf();
-            temp = "洗车指数    " + arr[0];
+            temp = "洗车指数    " + suggestion.cw.brf;
             mXiCheTile.setText(temp);
-            arr[1] = suggestion.getCw().getTxt();
-            mXiCheTxt.setText(arr[1]);
+            mXiCheTxt.setText(suggestion.cw.txt);
             //旅游指数
-            arr[0] = suggestion.getTrav().getBrf();
-            temp = "旅游指数    " + arr[0];
+            temp = "旅游指数    " + suggestion.trav.brf;
             mLvYouTile.setText(temp);
-            arr[1] = suggestion.getTrav().getTxt();
-            mLvYouTxt.setText(arr[1]);
+            mLvYouTxt.setText(suggestion.trav.txt);
             //感冒指数
-            arr[0] = suggestion.getFlu().getBrf();
-            temp = "感冒指数    " + arr[0];
+            temp = "感冒指数    " + suggestion.flu.brf;
             mGanMaoTile.setText(temp);
-            arr[1] = suggestion.getFlu().getTxt();
-            mGanMaoTxt.setText(arr[1]);
+            mGanMaoTxt.setText(suggestion.flu.txt);
         } else {
             mShuShiTitle.setText("舒适指数    无数据");
             mShuShiTxt.setText("");
@@ -740,7 +708,7 @@ public class WeatherActivity extends BaseActivity {
         return lineDataSet;
     }
 
-    private String dayOfWeek(int n){
+    private String dayOfWeek(int n) {
         String mWay;
         final Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
@@ -748,25 +716,25 @@ public class WeatherActivity extends BaseActivity {
         Integer integer = Integer.parseInt(mWay);
         integer = (integer + n) % 7;
         mWay = integer.toString();
-        if("1".equals(mWay)){
-            mWay ="日";
-        }else if("2".equals(mWay)){
-            mWay ="一";
-        }else if("3".equals(mWay)){
-            mWay ="二";
-        }else if("4".equals(mWay)){
-            mWay ="三";
-        }else if("5".equals(mWay)){
-            mWay ="四";
-        }else if("6".equals(mWay)){
-            mWay ="五";
-        }else if("0".equals(mWay)){
-            mWay ="六";
+        if ("1".equals(mWay)) {
+            mWay = "日";
+        } else if ("2".equals(mWay)) {
+            mWay = "一";
+        } else if ("3".equals(mWay)) {
+            mWay = "二";
+        } else if ("4".equals(mWay)) {
+            mWay = "三";
+        } else if ("5".equals(mWay)) {
+            mWay = "四";
+        } else if ("6".equals(mWay)) {
+            mWay = "五";
+        } else if ("0".equals(mWay)) {
+            mWay = "六";
         }
         return "周" + mWay;
     }
 
-    private int getAndroidScreenProperty(){
+    private int getAndroidScreenProperty() {
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
@@ -776,7 +744,7 @@ public class WeatherActivity extends BaseActivity {
         //int densityDpi = dm.densityDpi;//屏幕密度dpi（120 / 160 / 240）
         //屏幕宽度算法:屏幕宽度（像素）/屏幕密度
         //int screenHeight = (int)(height/density);//屏幕高度(dp)
-        return (int) (width/density);
+        return (int) (width / density);
     }
 
     private void saveCityID(String cityID) {
@@ -806,8 +774,8 @@ public class WeatherActivity extends BaseActivity {
         dbManager.copyDBFile();
         SQLiteDatabase db = dbManager.getDatabase();
         String cityid = null;
-        Cursor cursor = db.query("city", new String[] {"name", "cityid"}, "name = ?",
-                new String[] {city}, null, null, null);
+        Cursor cursor = db.query("city", new String[]{"name", "cityid"}, "name = ?",
+                new String[]{city}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             cityid = cursor.getString(cursor.getColumnIndex("cityid"));
             cursor.close();
