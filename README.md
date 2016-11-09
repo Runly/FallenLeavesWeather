@@ -191,7 +191,11 @@ v 1.0.0 (Build 1)
 下载地址： http://fir.im/leavesweather
 
 ###鸣谢
-**感谢以下开源项目的支持**
+**感谢以下开源项目**
+
+RxJava -- https://github.com/ReactiveX/RxJava
+
+RxAndroid -- https://github.com/ReactiveX/RxAndroid
 
 Retrofit -- https://github.com/square/retrofit
 
