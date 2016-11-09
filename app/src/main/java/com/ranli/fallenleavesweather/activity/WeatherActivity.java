@@ -58,7 +58,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -75,6 +76,7 @@ public class WeatherActivity extends BaseActivity {
     private static final int HALF_HOUR = 30 * 60 * 1000;
     private static final int SPLASH_DISPLAY_LENGTH = 350; // 延迟350毫秒
     private static final int LIMITED_USAGE = 404;
+    private static final String KEY = "b23a0a8f079147e1a1d809faa44c8b87";
     private DrawerLayout mDrawerLayout;
     private XRefreshView xRefreshView;
     private TextView mCityNameText;
@@ -403,28 +405,21 @@ public class WeatherActivity extends BaseActivity {
         }
         if (isNetworkAvailable()) {
 
-            Subscriber<WeatherInformation> subscriber = new Subscriber<WeatherInformation>() {
-                @Override
-                public void onCompleted() {
+            HttpUtils.getHeFengService()
+                    .getWeatherInfo(cityid, KEY)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            weatherInformation -> weatherInfo = weatherInformation,
+                            throwable -> {
+                                CustomDialog dialog = new CustomDialog(WeatherActivity.this);
+                                dialog.show();
+                                dialog.setCustomDialogText("非常抱歉，获取天气数据失败");
+                                dialog.setCustomOnClickListener(v -> dialog.cancel());
+                            },
+                            this::updateUI
+                    );
 
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    CustomDialog dialog = new CustomDialog(WeatherActivity.this);
-                    dialog.show();
-                    dialog.setCustomDialogText("非常抱歉，获取天气数据失败");
-                    dialog.setCustomOnClickListener(v -> dialog.cancel());
-                }
-
-                @Override
-                public void onNext(WeatherInformation weatherInformation) {
-                    weatherInfo = weatherInformation;
-                }
-            };
-
-            HttpUtils.getInstance().getWeatherInfo(subscriber, cityid);
-            updateUI();
         } else {
             mDialog = new CustomDialog(this);
             mDialog.show();

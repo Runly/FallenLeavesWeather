@@ -13,6 +13,5 @@ import rx.Observable;
 
 public interface HeFengService {
     @GET("weather")
-//    Call<WeatherInformation> getWeatherInfo(@Query("city") String cityID, @Query("key") String key);
     Observable<WeatherInformation> getWeatherInfo(@Query("city") String cityID, @Query("key") String key);
 }
