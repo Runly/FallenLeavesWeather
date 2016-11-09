@@ -34,7 +34,7 @@
 
 - **最开始的直接使用 HttpURLConnection，这很蠢**
 
-1、每次都new Thread，new Handler消耗过大
+1、每次都 new Thread，new Handler 消耗过大
 
 2、没有异常处理机制
 
@@ -42,27 +42,27 @@
 
 4、没有完善的API(请求头,参数,编码,拦截器等)与调试模式
 
-5、没有Https
+5、没有 Https
 
 - **改用 Volley 进行网络请求**
 
-1、Volley在Android 2.3及以上版本，是封装的HttpURLConnection，而在Android 2.2及以下版本，是封装的HttpClient，另外Volley对OkHttp也是支持的
+1、Volley 在 Android 2.3 及以上版本，是封装的 HttpURLConnection，而在 Android 2.2 及以下版本，是封装的 HttpClient，另外 Volley 对 OkHttp 也是支持的
 
 2、Volley存在一个缓存线程，一个网络请求线程池(默认4个线程)
 
-3、但是，直接使用Volley开发效率会比较低，实际项目中往往需要二次封装
+3、但是，直接使用 Volley 开发效率会比较低，实际项目中往往需要二次封装
 
 - **改用 Retrofit 进行网络请求**
 
-1、Retrofit极大的简化了网络请求的操作
+1、Retrofit 极大的简化了网络请求的操作
 
-2、Retrofit是直接使用OKHttp进行网络请求并不影响你对OkHttp进行配置
+2、Retrofit 是直接使用 OKHttp 进行网络请求并不影响你对 OkHttp 进行配置
 
 - **改用 RxJava + Rtrofit + OkHttp**
 
 1、RxJava 的优势是简洁，它的简洁的与众不同之处在于，虽然代码量可能会有所增加，但随着程序逻辑变得越来越复杂，它依然能够保持简洁。这使得异步操作会的逻辑会变得非常的简洁优雅，再搭配上lambda表达式，整个链式调用代码会变得更加的简洁，代码量也会大大减少，谁用谁知道！
 
-2、能够使用RxJava + Rtrofit 的组合，得益于Retrofit是完美支持 Rxjava，这不得不感谢Retrofit作者的Jake Wharton，这真的很牛逼！
+2、能够使用 RxJava + Rtrofit 的组合，得益于 Retrofit 是完美支持 Rxjava，这不得不感谢 Retrofit 作者 Jake Wharton 对 Rxjava 的兼容，这真的很牛逼！
 
 ```java
 	
@@ -153,29 +153,29 @@ v 1.4.0 (Build 8)
 
 v 1.4.0 (Build 7)
 
-- 不再使用org.json,改用Gson进行Json解析
+- 不再使用 org.json,改用 Gson 进行 Json 解析
 
-- 不再使用Volley进行网络请求，改用Retrofit
+- 不再使用 Volley 进行网络请求，改用 Retrofit
 
-- 删除不再使用的Model，重构部分代码
+- 删除不再使用的 Model，重构部分代码
 
 v 1.3.1 (Build 6)
 
-- 不直接使用HttpURLConnection，改用Volley进行网络请求
+- 不直接使用 HttpURLConnection，改用 Volley 进行网络请求
 
-- 修复当前城市温度可能为null的bug
+- 修复当前城市温度可能为 nul l的 bug
 
 v 1.3.0 (Build 5)
 
 - UI上做了一下细微的调节
 
-- 修复一个bug
+- 修复一个 bug
 
 - 重构部分代码
 
 v 1.2.0 (Build 4)
 
-- 修复更新功能的bug
+- 修复更新功能的 bug
 
 v 1.1.1 (Build 3)
 
@@ -217,7 +217,7 @@ CityPicker -- https://github.com/zaaach/CityPicker
 fir.im应用托管分发服务的平台 -- http://fir.im
 
 ###版权
-应用图标图片资源据来自网络公开资源，如有侵权，联系ranly314@gmail.com
+应用图标图片资源据来自网络公开资源，如有侵权，联系 ranly314@gmail.com
 
 
 
