@@ -15,7 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpUtils {
     private static final String baseUrl = "https://api.heweather.com/v5/";
-    private static final String KEY = "b23a0a8f079147e1a1d809faa44c8b87";
     private static final int DEFAULT_TIMEOUT = 5;
 
     private static HttpUtils httpUtils;
