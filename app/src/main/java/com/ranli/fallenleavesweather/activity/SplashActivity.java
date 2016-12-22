@@ -32,7 +32,7 @@ public class SplashActivity extends BaseActivity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.splash_activity_layout);
+        setContentView(R.layout.splash_activity);
         mImageView = $(R.id.falling_leaves);
         showPhoto();
 

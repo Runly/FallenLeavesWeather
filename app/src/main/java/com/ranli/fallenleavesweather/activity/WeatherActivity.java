@@ -77,6 +77,7 @@ public class WeatherActivity extends BaseActivity {
     private static final int SPLASH_DISPLAY_LENGTH = 350; // 延迟350毫秒
     private static final int LIMITED_USAGE = 404;
     private static final String KEY = "b23a0a8f079147e1a1d809faa44c8b87";
+    private static final String baseUrl = "https://api.heweather.com/v5/";
     private DrawerLayout mDrawerLayout;
     private XRefreshView xRefreshView;
     private TextView mCityNameText;
@@ -121,7 +122,7 @@ public class WeatherActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.weather_layout);
+        setContentView(R.layout.weather_activity);
         translucent();
 
         dbManager = WeatherInformationDbManager.getInstance(this);
@@ -405,7 +406,7 @@ public class WeatherActivity extends BaseActivity {
         }
         if (isNetworkAvailable()) {
 
-            HttpUtils.getHeFengService()
+            HttpUtils.getHeFengService(baseUrl)
                     .getWeatherInfo(cityid, KEY)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

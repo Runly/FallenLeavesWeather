@@ -1,5 +1,6 @@
 package com.ranli.fallenleavesweather.utils;
 
+import com.ranli.fallenleavesweather.interfaces.FirService;
 import com.ranli.fallenleavesweather.interfaces.HeFengService;
 
 import java.util.concurrent.TimeUnit;
@@ -14,33 +15,38 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class HttpUtils {
-    private static final String baseUrl = "https://api.heweather.com/v5/";
     private static final int DEFAULT_TIMEOUT = 5;
 
     private static HttpUtils httpUtils;
-    private static HeFengService heFengService;
+    private static Retrofit retrofit;
 
     //构造方法私有
-    private HttpUtils() {
+    private HttpUtils(String baseUrl) {
         //手动创建一个OkHttpClient并设置超时时间
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(baseUrl)
                 .build();
 
-        heFengService = retrofit.create(HeFengService.class);
     }
 
     //在访问HttpUtils时创建单例
-    public static synchronized HeFengService getHeFengService() {
+    public static synchronized HeFengService getHeFengService(String baseUrl) {
         if (httpUtils == null) {
-            httpUtils = new HttpUtils();
+            httpUtils = new HttpUtils(baseUrl);
         }
-        return heFengService;
+        return retrofit.create(HeFengService.class);
+    }
+
+    public static synchronized FirService getFirService(String baseUrl) {
+        if (httpUtils == null) {
+            httpUtils = new HttpUtils(baseUrl);
+        }
+        return retrofit.create(FirService.class);
     }
 }

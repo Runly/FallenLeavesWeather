@@ -35,7 +35,7 @@ public class SettingsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.settings_activity_layout);
+        setContentView(R.layout.settings_activity);
         initUI();
     }
 
