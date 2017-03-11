@@ -28,7 +28,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:src="@drawable/refresh_two"
+                android:src="@mipmap/refresh_two"
                 tools:ignore="ContentDescription"
                 />
 
@@ -128,7 +128,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/arrows"
+                android:src="@mipmap/arrows"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -155,7 +155,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:src="@drawable/location"
+                android:src="@mipmap/location"
                 tools:ignore="ContentDescription"
                 />
 

@@ -68,13 +68,13 @@ public class SplashActivity extends BaseActivity{
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(resources, R.drawable.falling_leaves, options);
+        BitmapFactory.decodeResource(resources, R.mipmap.falling_leaves, options);
         //利用原图的高宽比，求得需要的高度 = 原图高度 / 原图宽度 * 屏幕宽度
         double temp = (double)options.outHeight / (double)options.outWidth * (double)width;
         int height = (int)temp;
         options.inSampleSize = ImageCompression.calculateInSampleSize(options, width, height);
         options.inJustDecodeBounds = false;
-        Bitmap src = BitmapFactory.decodeResource(resources, R.drawable.falling_leaves, options);
+        Bitmap src = BitmapFactory.decodeResource(resources, R.mipmap.falling_leaves, options);
         Bitmap imageBitmap = ImageCompression.createScaleBitmap(src, width, height);
         mImageView.setImageBitmap(imageBitmap);
     }

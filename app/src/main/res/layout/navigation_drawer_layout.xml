@@ -12,7 +12,7 @@
         android:id="@+id/navigation_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/tile_image"
+        android:src="@mipmap/tile_image"
         android:adjustViewBounds="true"
         tools:ignore="ContentDescription"
         />
@@ -34,7 +34,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/location"
+            android:src="@mipmap/location"
             tools:ignore="ContentDescription"
             />
 
@@ -81,7 +81,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/settings"
+            android:src="@mipmap/settings"
             />
 
         <TextView
@@ -114,7 +114,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/about"
+            android:src="@mipmap/about"
             />
 
         <TextView

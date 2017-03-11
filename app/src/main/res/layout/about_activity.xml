@@ -25,7 +25,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="bottom"
-                android:src="@drawable/app_icon"
+                android:src="@mipmap/app_icon"
                 tools:ignore="ContentDescription"
                 />
 
@@ -71,7 +71,7 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/update_arrows"
+                android:src="@mipmap/update_arrows"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"

@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="xrefreshview-3.5.5">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.huxq17.xrefreshview/xrefreshview/3.5.5/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.huxq17.xrefreshview/xrefreshview/3.5.5/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/b5e5197580654dfd8f5a67605a40c1a812d8478d/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/b5e5197580654dfd8f5a67605a40c1a812d8478d/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

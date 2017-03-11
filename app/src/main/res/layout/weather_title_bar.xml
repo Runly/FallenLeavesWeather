@@ -14,7 +14,7 @@
             android:paddingBottom="16dp"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@drawable/menu"
+            android:src="@mipmap/menu"
             tools:ignore="ContentDescription"
             />
 
@@ -37,7 +37,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@drawable/refresh"
+            android:src="@mipmap/refresh"
             tools:ignore="ContentDescription"
             />
 

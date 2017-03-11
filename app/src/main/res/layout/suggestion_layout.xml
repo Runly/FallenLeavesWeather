@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/shu_shi"
+            android:src="@mipmap/shu_shi"
             tools:ignore="ContentDescription"
             />
 
@@ -63,7 +63,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/chuan_yi"
+            android:src="@mipmap/chuan_yi"
             tools:ignore="ContentDescription"
             />
 
@@ -111,7 +111,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/zi_wai"
+            android:src="@mipmap/zi_wai"
             tools:ignore="ContentDescription"
             />
 
@@ -159,7 +159,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/yun_dong"
+            android:src="@mipmap/yun_dong"
             tools:ignore="ContentDescription"
             />
 
@@ -207,7 +207,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/xi_che"
+            android:src="@mipmap/xi_che"
             tools:ignore="ContentDescription"
             />
 
@@ -255,7 +255,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/lv_you"
+            android:src="@mipmap/lv_you"
             tools:ignore="ContentDescription"
             />
 
@@ -303,7 +303,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/gan_mao"
+            android:src="@mipmap/gan_mao"
             tools:ignore="ContentDescription"
             />
 

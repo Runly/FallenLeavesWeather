@@ -58,9 +58,9 @@ public class SettingsActivity extends BaseActivity {
         mIntervalText = $(R.id.interval_text);
         RelativeLayout mIntervalLayout = $(R.id.refresh_interval);
         if (isRefresh) {
-            mIsRefreshImage.setImageResource(R.drawable.on);
+            mIsRefreshImage.setImageResource(R.mipmap.on);
         } else {
-            mIsRefreshImage.setImageResource(R.drawable.off);
+            mIsRefreshImage.setImageResource(R.mipmap.off);
             mIntervalLayout.setClickable(false);
             mIntervalText.setText("");
         }
@@ -68,12 +68,12 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (isRefresh) {
-                    mIsRefreshImage.setImageResource(R.drawable.off);
+                    mIsRefreshImage.setImageResource(R.mipmap.off);
                     isRefresh = false;
                     editor.putBoolean("is_refresh", false);
 
                 } else {
-                    mIsRefreshImage.setImageResource(R.drawable.on);
+                    mIsRefreshImage.setImageResource(R.mipmap.on);
                     isRefresh = true;
                     editor.putBoolean("is_refresh", true);
                 }
@@ -180,20 +180,20 @@ public class SettingsActivity extends BaseActivity {
         isLocation = spf.getBoolean("is_location", true);
         mIsLocationImage = $(R.id.is_location_image);
         if (isLocation) {
-            mIsLocationImage.setImageResource(R.drawable.on);
+            mIsLocationImage.setImageResource(R.mipmap.on);
         } else {
-            mIsLocationImage.setImageResource(R.drawable.off);
+            mIsLocationImage.setImageResource(R.mipmap.off);
         }
         mIsLocationImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isLocation) {
-                    mIsLocationImage.setImageResource(R.drawable.off);
+                    mIsLocationImage.setImageResource(R.mipmap.off);
                     isLocation = false;
                     editor.putBoolean("is_location", false);
 
                 } else {
-                    mIsLocationImage.setImageResource(R.drawable.on);
+                    mIsLocationImage.setImageResource(R.mipmap.on);
                     isLocation = true;
                     editor.putBoolean("is_location", true);
                 }
