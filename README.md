@@ -65,85 +65,78 @@
 2、能够使用 RxJava + Rtrofit 的组合，得益于 Retrofit 是完美支持 Rxjava，这不得不感谢 Retrofit 作者 Jake Wharton 对 Rxjava 的兼容，这真的很牛逼！
 
 ```java
-	
-	//定义接口
-	public interface HeFengService {
-		@GET("weather")
-		Observable<WeatherInformation> getWeatherInfo(@Query("city") String cityID, @Query("key") String key);
-	}
+    
+    //定义接口
+    public interface HeFengService {
+        @GET("weather")
+        Observable<WeatherInformation> getWeatherInfo(@Query("city") String cityID, @Query("key") String key);
+    }
 
 ```
 
 ```java
-
-	//封装为工具类
-	public class HttpUtils {
-	    private static final String baseUrl = "https://api.heweather.com/v5/";
-	    private static final int DEFAULT_TIMEOUT = 5;
-	
-	    private static HttpUtils httpUtils;
-	    private static HeFengService heFengService;
-	
-	    //构造方法私有
-	    private HttpUtils() {
-	        //手动创建一个OkHttpClient并设置超时时间
-	        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
-	        httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-	
-	        Retrofit retrofit = new Retrofit.Builder()
-	                .client(httpClientBuilder.build())
-	                .addConverterFactory(GsonConverterFactory.create())
-	                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-	                .baseUrl(baseUrl)
-	                .build();
-	
-	        heFengService = retrofit.create(HeFengService.class);
-	    }
-	
-	    //在访问HttpUtils时创建单例
-	    public static synchronized HeFengService getHeFengService() {
-	        if (httpUtils == null) {
-	            httpUtils = new HttpUtils();
-	        }
-	        return heFengService;
-	    }
-	}
+    
+    //封装为工具类
+    public class HttpUtils {
+        private static final String baseUrl = "https://api.heweather.com/v5/";
+        private static final int DEFAULT_TIMEOUT = 5;
+        
+        private static HttpUtils httpUtils;
+        private static HeFengService heFengService;
+        
+        //构造方法私有
+        private HttpUtils() {
+            //手动创建一个OkHttpClient并设置超时时间
+            OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+            httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+            
+            Retrofit retrofit = new Retrofit.Builder()
+                .client(httpClientBuilder.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(baseUrl)
+                .build();
+            heFengService = retrofit.create(HeFengService.class);
+        }
+        
+        //在访问HttpUtils时创建单例
+        public static synchronized HeFengService getHeFengService() {
+            if (httpUtils == null) {
+                httpUtils = new HttpUtils();
+            }
+            return heFengService;
+        }
+    }
 
 ```
 
 ```java
-
-	//在需要的地方调用
-	HttpUtils.getHeFengService()
-            .getWeatherInfo(cityid, KEY)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                    weatherInformation -> weatherInfo = weatherInformation,
-                    throwable -> {
-                        CustomDialog dialog = new CustomDialog(WeatherActivity.this);
-                        dialog.show();
-                        dialog.setCustomDialogText("非常抱歉，获取天气数据失败");
-                        dialog.setCustomOnClickListener(v -> dialog.cancel());
-                    },
-                    this::updateUI
-            );
+    
+    //在需要的地方调用
+    HttpUtils.getHeFengService()
+        .getWeatherInfo(cityid, KEY)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(
+            weatherInformation -> weatherInfo = weatherInformation,
+            throwable -> {
+                CustomDialog dialog = new CustomDialog(WeatherActivity.this);
+                dialog.show();
+                dialog.setCustomDialogText("非常抱歉，获取天气数据失败");
+                dialog.setCustomOnClickListener(v -> dialog.cancel());
+            },
+            this::updateUI
+        );
 
 ```
 
 ###应用截图
 
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013501.png" width = "200" height = "355.6" align=center />
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013511.png" width = "200" height = "355.6" align=center />
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013535.png" width = "200" height = "355.6" align=center />
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013544.png" width = "200" height = "355.6" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013501.png" width = "200" height = "355.6" align=center />  <img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013511.png" width = "200" height = "355.6" align=center />  <img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013535.png" width = "200" height = "355.6" align=center />  <img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013544.png" width = "200" height = "355.6" align=center />
 
 
 
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013554.png" width = "200" height = "355.6" align=center />
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013606.png" width = "200" height = "355.6" align=center />
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013621.png" width = "200" height = "355.6" align=center />
-<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-165636.png" width = "200" height = "355.6" align=center />
+<img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013554.png" width = "200" height = "355.6" align=center />  <img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013606.png" width = "200" height = "355.6" align=center />  <img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-013621.png" width = "200" height = "355.6" align=center />  <img src="https://github.com/Runly/FallenLeavesWeather/blob/master/screenshot/Screenshot_20161001-165636.png" width = "200" height = "355.6" align=center />
 
 ###版本信息
 v 1.4.0 (Build 8)
