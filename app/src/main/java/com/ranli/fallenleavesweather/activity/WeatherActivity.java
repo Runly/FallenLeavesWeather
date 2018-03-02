@@ -77,7 +77,7 @@ public class WeatherActivity extends BaseActivity {
     private static final int SPLASH_DISPLAY_LENGTH = 350; // 延迟350毫秒
     private static final int LIMITED_USAGE = 404;
     private static final String KEY = "b23a0a8f079147e1a1d809faa44c8b87";
-    private static final String baseUrl = "https://api.heweather.com/v5/";
+    private static final String baseUrl = "https://free-api.heweather.com/v5/";
     private DrawerLayout mDrawerLayout;
     private XRefreshView xRefreshView;
     private TextView mCityNameText;
@@ -348,7 +348,7 @@ public class WeatherActivity extends BaseActivity {
         mLocationClient = new AMapLocationClient(this);
         //初始化定位参数
         AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
-        //设置定位监听
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置定位间隔,单位毫秒,默认为2000ms
         mLocationOption.setInterval(2000);

@@ -3,9 +3,15 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release {
-            keyAlias 'fallenleavesweather'
+            keyAlias 'fallenLeavesWheather'
             keyPassword 'Ranli785661105'
-            storeFile file(new File('../appkeystore.jks'))
+            storeFile file('../fallenLeavesWheather.jks')
+            storePassword 'Ranli785661105'
+        }
+        debug {
+            keyAlias 'fallenLeavesWheather'
+            keyPassword 'Ranli785661105'
+            storeFile file('../fallenLeavesWheather.jks')
             storePassword 'Ranli785661105'
         }
     }
@@ -27,7 +33,7 @@ android {
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
         release {
             signingConfig signingConfigs.release
@@ -38,17 +44,16 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile files('libs/AMap_Location_V3.00_20160922.jar')
+    compile files('libs/AMap_Location_V3.8.0_20180201.jar')
     compile 'com.huxq17.xrefreshview:xrefreshview:3.5.5'
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
-    compile 'im.fir:fir-sdk:latest.integration@aar'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile "com.squareup.retrofit2:converter-gson:2.1.0"
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
 }

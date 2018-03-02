@@ -30,8 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import im.fir.sdk.FIR;
-import im.fir.sdk.VersionCheckCallback;
+//import im.fir.sdk.FIR;
+//import im.fir.sdk.VersionCheckCallback;
 import okhttp3.ResponseBody;
 import rx.schedulers.Schedulers;
 
@@ -71,49 +71,49 @@ public class AboutActivity extends BaseActivity {
         }
 
         RelativeLayout mUpdateLayout = $(R.id.version_update);
-        mUpdateLayout.setOnClickListener(v -> FIR.checkForUpdateInFIR(FIR_TOKEN, getVersionCheckCallback()));
+//        mUpdateLayout.setOnClickListener(v -> FIR.checkForUpdateInFIR(FIR_TOKEN, getVersionCheckCallback()));
     }
 
-    private VersionCheckCallback getVersionCheckCallback() {
-        return new VersionCheckCallback() {
-            @Override
-            public void onSuccess(String versionJson) {
-                Fir fir = new Gson().fromJson(versionJson, Fir.class);
-                versionCode = fir.version;
-                downloadUrl = fir.direct_install_url;
-
-                PackageInfo pi = getPackageInfo();
-                if (!TextUtils.isEmpty(versionCode) && pi != null) {
-                    int localVersionCode = pi.versionCode;
-                    //请求写入sdcard权限
-                    if (Integer.valueOf(versionCode) > localVersionCode) {
-                        if (ContextCompat.checkSelfPermission(AboutActivity.this, WRITE_PERMISSIONS[0]) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(AboutActivity.this, WRITE_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
-                        } else {
-                            downloadFile();
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "已是最新版本", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFail(Exception exception) {
-                Toast.makeText(getApplicationContext(), "获取更新失败", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onStart() {
-                Toast.makeText(getApplicationContext(), "正在获取更新...", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        };
-    }
+//    private VersionCheckCallback getVersionCheckCallback() {
+//        return new VersionCheckCallback() {
+//            @Override
+//            public void onSuccess(String versionJson) {
+//                Fir fir = new Gson().fromJson(versionJson, Fir.class);
+//                versionCode = fir.version;
+//                downloadUrl = fir.direct_install_url;
+//
+//                PackageInfo pi = getPackageInfo();
+//                if (!TextUtils.isEmpty(versionCode) && pi != null) {
+//                    int localVersionCode = pi.versionCode;
+//                    //请求写入sdcard权限
+//                    if (Integer.valueOf(versionCode) > localVersionCode) {
+//                        if (ContextCompat.checkSelfPermission(AboutActivity.this, WRITE_PERMISSIONS[0]) != PackageManager.PERMISSION_GRANTED) {
+//                            ActivityCompat.requestPermissions(AboutActivity.this, WRITE_PERMISSIONS, REQUEST_PERMISSION_LOCATION);
+//                        } else {
+//                            downloadFile();
+//                        }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "已是最新版本", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFail(Exception exception) {
+//                Toast.makeText(getApplicationContext(), "获取更新失败", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onStart() {
+//                Toast.makeText(getApplicationContext(), "正在获取更新...", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//
+//            }
+//        };
+//    }
 
     private void downloadFile() {
         mProgressDialog = new ProgressDialog(AboutActivity.this);
